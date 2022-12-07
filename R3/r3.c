@@ -95,7 +95,7 @@ void append(WORD ** headRef, char * line) {
     newWord = (WORD * ) malloc(sizeof(WORD));
     newWord -> string = line;
     newWord -> next = NULL;
-    if ( * headRef == NULL) {
+    if (* headRef == NULL) {
         * headRef = newWord;
     } else {
         p = * headRef;
