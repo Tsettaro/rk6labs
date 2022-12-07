@@ -82,9 +82,8 @@ WORD * in(FILE * f) {
 void append(WORD ** headRef, char * line) {
     WORD * newWord, * p;
     newWord = (WORD * ) malloc(sizeof(WORD));
-    newWord -> string = line;
-    newWord -> next = NULL;
-    if ( * headRef == NULL) {
+    newWord -> string = line, newWord -> next = NULL;
+    if (* headRef == NULL) {
         * headRef = newWord;
     } else {
         p = * headRef;
