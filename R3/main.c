@@ -33,9 +33,14 @@ int main(int argc, char * argv[]) {
     words = in(f);
     fclose(f);
     if (words) {
-        clear( & words);
-        print( & words);
-        delete( & words);
+        printf("Before delete: \n");
+        print(&words);
+        clear(&words);
+        printf("\nAfter delete:\n");
+        print(&words);
+        delete(&words);
+    } else{
+        printf("List is empty!\n");
     }
 
 }
@@ -59,7 +64,7 @@ WORD * in(FILE * f) {
                 exit(-1);
             }
             strcpy(elem, line);
-            append( & head, elem);
+            append(&head, elem);
         }
     }
     if (j > 0 && strlen(line) != 0) {
@@ -69,7 +74,7 @@ WORD * in(FILE * f) {
             exit(-1);
         }
         strcpy(elem, line);
-        append( & head, elem);
+        append(&head, elem);
     }
     return head;
 }
@@ -92,7 +97,6 @@ void append(WORD ** headRef, char * line) {
 
 void print(WORD ** head) {
     WORD * p;
-    printf("Words:\n");
     for (p = * head; p != NULL; p = p -> next) {
         printf("%s\n", p -> string);
     }
