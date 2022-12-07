@@ -42,9 +42,12 @@ int main(int argc, char * argv[]) {
     fclose(f);
     if (words) {
         printf("Before delete: \n");
+
         print(&words);
         delete(&words);
+
         printf("\nAfter delete:\n");
+        
         print(&words);
         clear(&words);
     } else{
