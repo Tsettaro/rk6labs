@@ -44,6 +44,7 @@ int main(int argc, char * argv[]) {
     }
 
 }
+
 WORD * in(FILE * f) {
     WORD * head = NULL;
     int j = 0, c;
