@@ -103,6 +103,14 @@ void print(WORD ** head) {
 }
 void clear(WORD ** head) {
     WORD * p = * head, * q;
+    if (strlen(p -> string) < STR_LEN) {
+        q = p;
+        p = p -> next;
+        free(q -> string);
+        free(q);
+        * head = p;
+    }
+    
     while (p != NULL) {
         q = p -> next;
         if (q != NULL && strlen(q -> string) < STR_LEN) {
@@ -113,13 +121,7 @@ void clear(WORD ** head) {
         }
         p = p -> next;
     }
-    p = * head;
-    if (strlen(p -> string) < STR_LEN) {
-        q = p -> next;
-        free(p -> string);
-        free(p);
-        * head = q;
-    }
+    
 }
 
 void delete(WORD ** head) {
