@@ -14,14 +14,14 @@ WORD;
 WORD * in ();						// ввод слов		
 void push(WORD ** , char *);		// добавление слова в стек
 void printList(WORD *);				// вывод слов из стека
-void delete (WORD *);				// удаление узлов
+void delete (WORD **);				// удаление узлов
 
 int main() {
     WORD * words = NULL;
     words = in ();
     printf("\nWords: \n");
     printList(words);
-	delete(words);
+	delete(&words);
 }
 
 WORD * in () { 					    				
@@ -73,10 +73,12 @@ void printList(WORD * head) {
 	}	
 }
 
-void delete (WORD *head){
-	while (head){
-		WORD *q = head;
-    	free(head);
-		head = q->next;
-	}
+void delete(WORD ** head) {
+    WORD * p, * q;
+    while ( * head) {
+        p = * head;
+        q = p -> next;
+        free(p);
+        * head = q;
+    }
 }
