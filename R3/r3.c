@@ -12,11 +12,19 @@ typedef struct Node {
 }
 WORD;
 
+// List
 WORD * in(FILE * f);
+
+// Add word to list
 void append(WORD ** , char * );
+
+// Delete word, which lentgh less than STR_LEN
 void delete(WORD ** );
-int repeat(WORD * , char * );
+
+// Print words to stdout
 void print(WORD ** );
+
+// Clear list
 void clear(WORD ** );
 
 int main(int argc, char * argv[]) {
@@ -35,16 +43,15 @@ int main(int argc, char * argv[]) {
     if (words) {
         printf("Before delete: \n");
         print(&words);
-        clear(&words);
+        delete(&words);
         printf("\nAfter delete:\n");
         print(&words);
-        delete(&words);
+        clear(&words);
     } else{
         printf("List is empty!\n");
     }
 
 }
-
 WORD * in(FILE * f) {
     WORD * head = NULL;
     int j = 0, c;
@@ -82,12 +89,10 @@ WORD * in(FILE * f) {
 
 void append(WORD ** headRef, char * line) {
     WORD * newWord, * p;
-     if ((newWord = (WORD * ) malloc(sizeof(WORD))) == NULL) {
-        printf("NOT ENOUGH MEMORY!\n");
-        exit(-1);
-    }
-    newWord -> string = line, newWord -> next = NULL;
-    if (* headRef == NULL) {
+    newWord = (WORD * ) malloc(sizeof(WORD));
+    newWord -> string = line;
+    newWord -> next = NULL;
+    if ( * headRef == NULL) {
         * headRef = newWord;
     } else {
         p = * headRef;
@@ -104,7 +109,7 @@ void print(WORD ** head) {
         printf("%s\n", p -> string);
     }
 }
-void clear(WORD ** head) {
+void delete(WORD ** head) {
     WORD * p = * head, * q;
     if (strlen(p -> string) < STR_LEN) {
         q = p;
@@ -127,7 +132,7 @@ void clear(WORD ** head) {
     
 }
 
-void delete(WORD ** head) {
+void clear(WORD ** head) {
     WORD * p, * q;
     while ( * head) {
         p = * head;
