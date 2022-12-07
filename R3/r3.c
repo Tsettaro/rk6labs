@@ -18,7 +18,7 @@ WORD * in(FILE * f);
 // Add word to list
 void append(WORD ** , char * );
 
-// Delete word, which lentgh less than STR_LEN
+// Delete word, which length less than STR_LEN
 void delete(WORD ** );
 
 // Print words to stdout
