@@ -2,12 +2,10 @@
 #include <iostream>
 #include <cstring>
 
-Alpha::Alpha(const char *s, const char*c){
+Alpha::Alpha(const char *s){
 	_bin = 0;
 	while (*s){
-		if (strchr(c, tolower(*s))){
-			_bin|= (1 << (tolower(*s) - 'a'));
-		}
+		_bin|= (1 << (tolower(*s) - 'a'));
 		s++;
 	}
 }
@@ -50,10 +48,10 @@ Alpha::operator char*(){
 int main(int argc, char **argv){
 	using std::cout;
 	if (argc < 2) return -1;
-	Alpha str(argv[1], "bcdfghjklmnpqrstvwxz");
-	Alpha sogl("bcdfghjklmnpqrstvwxz", "bcdfghjklmnpqrstvwxz");
+	Alpha str(argv[1]);
+	Alpha sogl("bcdfghjklmnpqrstvwxz");
 	Alpha H;
 	Alpha set_sogl = str & sogl;
-	int d = H(set_sogl, sogl); // вызов объекта класса Альфа как функция
+	int d = H(set_sogl, sogl);
 	cout << "<(" << (char*)str << ", " << (char*)sogl << ") = " << d << '\n';
 }
