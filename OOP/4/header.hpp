@@ -7,6 +7,6 @@ class Alpha{
 		Alpha (const char *, const char*);
 		Alpha operator &(Alpha&);
 		operator char*();
-		int pop(unsigned b);
+		int pop(unsigned);
 		int operator () (Alpha&, Alpha&);
 };

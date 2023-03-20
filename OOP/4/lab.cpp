@@ -1,6 +1,16 @@
-#include "header.hpp"
 #include <iostream>
 #include <cstring>
+
+class Alpha{
+	unsigned _bin;
+	public:
+		Alpha() : _bin(0) {};
+		Alpha (const char *, const char*);
+		Alpha operator &(Alpha&);
+		operator char*();
+		int pop(unsigned b);
+		int operator () (Alpha&, Alpha&);
+};
 
 Alpha::Alpha(const char *s, const char*c){
 	_bin = 0;
