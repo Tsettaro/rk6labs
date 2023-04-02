@@ -2,33 +2,48 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
-#include <math.h>
+#include <ctype.h>
 
-int check(char n[]){
-    unsigned int c = 0;
-    //printf("%s", n);
-    int l = strlen(n);
-    for (int i = l-1; i >= 0; i--){
-        unsigned a = n[i] - '0';
-        if (a > 9) {return -1;}
-        if ((c*10+a < c)){return -1;}
-        c = c * 10 + a;
+int is_number(char str[]) {
+    int i = 0;
+    while (str[i]) {
+        if (!isdigit(str[i])) {
+            return 0;
+        }
+        i++;
     }
     return 1;
 }
 
-int main(int argc, char *argv[]){
-    if (argc < 2) {
-        printf("Not enough arguments");
+unsigned int pow2(unsigned int n) {
+    return 1 << n;
+}
+
+void print_binary(unsigned int number) {
+    if (number >> 1) {
+        print_binary(number >> 1);
+    }
+    fputc((number & 1) ? '1' : '0', stdout);
+}
+
+int main(int argc, char **argv){
+    if (argc < 2){
+        printf("None argument\n");
         return -1;
     }
-    if(check(argv[1])){
-        unsigned n = atoi(argv[1]);
-        printf("%u", n);
-        unsigned result = pow(2, n) * (pow(2, n-1) - 1);
-
-        printf("Binary: %b\n", result);
-        printf("Octal  : %o\n", result);
-        printf("Hex    : %x\n", result);
+    if (!is_number(argv[1])){
+        printf("Argument is not number\n");
+        return -2;
     }
+    unsigned long r = strtoul(argv[1],NULL,10);
+    if (r > UINT_MAX){
+        printf("Exponent is very big\n");
+        return -3;
+    }
+    unsigned long long result = pow2(r) * (pow2(r-1) - 1);
+    printf("Binary : ");
+    print_binary(result);
+    putchar('\n');
+    printf("Octal  : %llo\n", result);
+    printf("Hex    : %llx\n", result);
 }
