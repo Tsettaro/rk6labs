@@ -7,7 +7,7 @@
 int is_number(char str[]) {
     int i = 0;
     while (str[i]) {
-        if (!isdigit(str[i])) {
+        if (!isdigit(str[i]) && (str[i] != '-')) {
             return 0;
         }
         i++;
@@ -35,9 +35,9 @@ int main(int argc, char **argv){
         printf("Argument is not number\n");
         return -2;
     }
-    unsigned r = strtoul(argv[1],NULL,10);
-    if (r > 32){
-        printf("Exponent is very big\n");
+    long r = strtol(argv[1],NULL,10);
+    if (r > 32 || r < 2){
+        printf("Exponent is not correct\n");
         return -3;
     }
     unsigned long long result = pow2(r) * (pow2(r-1) - 1);
