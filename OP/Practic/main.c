@@ -35,8 +35,8 @@ int main(int argc, char **argv){
         printf("Argument is not number\n");
         return -2;
     }
-    unsigned long r = strtoul(argv[1],NULL,10);
-    if (r > UINT_MAX){
+    unsigned r = strtoul(argv[1],NULL,10);
+    if (r > 32){
         printf("Exponent is very big\n");
         return -3;
     }
