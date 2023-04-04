@@ -23,7 +23,7 @@ void print_binary(unsigned int number) {
     if (number >> 1) {
         print_binary(number >> 1);
     }
-    fputc((number & 1) ? '1' : '0', stdout);
+    printf("%c", (number & 1) ? '1' : '0');
 }
 
 int main(int argc, char **argv){
