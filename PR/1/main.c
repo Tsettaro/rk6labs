@@ -35,12 +35,12 @@ int main(int argc, char **argv){
         printf("Argument is not number\n");
         return -2;
     }
-    long r = strtol(argv[1],NULL,10);
-    if (r > 32 || r < 2){
+    long n = strtol(argv[1],NULL,10);
+    if (n > 32 || n < 2){
         printf("Exponent is not correct\n");
         return -3;
     }
-    unsigned long long result = pow2(r) * (pow2(r-1) - 1);
+    unsigned long long result = pow2(n) * (pow2(n-1) - 1);
     printf("Binary : ");
     print_binary(result);
     putchar('\n');
