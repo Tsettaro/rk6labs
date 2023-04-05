@@ -5,9 +5,9 @@
 #include <ctype.h>
 
 int is_number(char str[]) {
-    int i = 0;
+    int i = 1, flag = (str[0] == '-' || str[0] == '+') ? 1 : 0;
     while (str[i]) {
-        if (!isdigit(str[i]) && (str[i] != '-')) {
+        if (!isdigit(str[i]) && flag == 1) {
             return 0;
         }
         i++;
