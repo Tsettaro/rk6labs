@@ -4,9 +4,10 @@
 #include <ctype.h>
 
 int is_number(char str[]) {
-    int i = 1, flag = (str[0] == '-' || str[0] == '+') ? 1 : 0;
+    int i = 1, flag = 0;
     while (str[i]) {
-        if (!isdigit(str[i]) && flag == 1) {
+        if ((str[i] == '+' || str[i] == '-') && i != 0) return 0;
+        else if (!isdigit(str[i])) {
             return 0;
         }
         i++;
