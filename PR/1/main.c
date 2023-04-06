@@ -30,7 +30,7 @@ int main(int argc, char **argv){
         return -1;
     }
     if (!is_number(argv[1])){
-        printf("Argument is not a number!\n");
+        printf("Argument is not integer number!\n");
         return -2;
     }
     long n = strtol(argv[1],NULL,10);
