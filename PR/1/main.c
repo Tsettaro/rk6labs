@@ -7,9 +7,7 @@ int is_number(char str[]) {
     int i = 1, flag = 0;
     while (str[i]) {
         if ((str[i] == '+' || str[i] == '-') && i != 0) return 0;
-        else if (!isdigit(str[i])) {
-            return 0;
-        }
+        else if (!isdigit(str[i])) return 0;
         i++;
     }
     return 1;
@@ -28,21 +26,20 @@ void print_binary(unsigned int number) {
 
 int main(int argc, char **argv){
     if (argc < 2){
-        printf("None argument\n");
+        printf("No argument!\n");
         return -1;
     }
     if (!is_number(argv[1])){
-        printf("Argument is not number\n");
+        printf("Argument is not a number!\n");
         return -2;
     }
     long n = strtol(argv[1],NULL,10);
     if (n > 32 || n < 2){
-        printf("Exponent is not correct\n");
+        printf("Exponent is not correct!\n");
         return -3;
     }
     unsigned long long result = pow2(n) * (pow2(n-1) - 1);
-    printf("Binary : ");
-    print_binary(result);
+    printf("Binary : "), print_binary(result);
     putchar('\n');
     printf("Octal  : %llo\n", result);
     printf("Hex    : %llx\n", result);
