@@ -26,7 +26,7 @@ class Square{
 class Magic : public Square{
 	public:
 		Magic(unsigned degree);
-		void horse();
+		void indian();
 		void print();
 	protected:
 		int width();

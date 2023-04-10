@@ -31,19 +31,18 @@ int Magic::reflect(int k){
 	return k;
 }
 
-void Magic::horse(){
+void Magic::indian(){
 	int i, j;
 	int z = 1;
 	int row = 0, col = 0;
 	int max = _degree * _degree;
-	row = _degree-1;
 	col = _degree/2;
 	_table[row][col] = z;
 	while (z < max){
-		i = reflect(row - 2);
+		i = reflect(row - 1);
 		j = reflect(col + 1);
 		if (_table[i][j] > 0){
-			i = reflect(row-4);
+			i = reflect(row+1);
 			j = reflect(col);
 		}
 		row = i;
@@ -57,8 +56,8 @@ int main(int argc, char **argv){
 	if (argc < 2) return -1;
 	int n = atoi(argv[1]);
 	if ((n % 2) == 0) return -2;
-	Magic m(atoi(argv[1]));
-	m.horse();
+	Magic m(n);
+	m.indian();
 	m.print();
 	return 0;
 }
