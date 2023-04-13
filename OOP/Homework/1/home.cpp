@@ -7,7 +7,8 @@ class Square{
 		unsigned _degree;
 		unsigned **_table;
 	public:
-		Square(unsigned degree) : _degree(degree){
+		Square(unsigned degree){
+		_degree = degree;
 		_table = new unsigned*[degree];
 		
 		for (int i = 0; i < degree; i++) {
@@ -29,7 +30,7 @@ class Square{
 
 class Magic : public Square{
 	public:
-		Magic(unsigned degree);
+		Magic(unsigned);
 		void indian();
 		void print();
 	protected:
@@ -82,7 +83,7 @@ void Magic::indian(){
 		}
 		row = i;
 		col = j;
-		++z;
+		z++;
 		_table[row][col] = z;
 	}
 }
