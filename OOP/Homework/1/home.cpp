@@ -63,7 +63,6 @@ int Magic::width(){
 
 int Magic::reflect(int k){
 	if (k < 0) {return k + _degree;}
-	else if (k > _degree - 1) {return k - _degree;}
 	return k;
 }
 
@@ -76,7 +75,7 @@ void Magic::indian(){
 	_table[row][col] = z;
 	while (z < max){
 		i = reflect(row - 1);
-		j = reflect(col + 1);
+		j = reflect(col - 1);
 		if (_table[i][j] > 0){
 			i = reflect(row+1);
 			j = reflect(col);
