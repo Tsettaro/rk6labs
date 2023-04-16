@@ -34,19 +34,19 @@ private:
     }
 public:
     Triangle(Point& p1, Point& p2, Point& p3): p1_(p1), p2_(p2), p3_(p3) {}
-
-    double HeightLength() {
-        double a = distance(p1_, p2_);
-        double b = distance(p2_, p3_);
-        double c = distance(p3_, p1_);
-
-        double s = sem_per(a, b, c);
-        double area = tr_area(s, a, b, c);
-
-        double height = 2 * area / a;
-        return height;
-    }
+    double HeightLength();
 };
+
+double Triangle::HeightLength(){
+    double a = distance(p1_, p2_);
+    double b = distance(p2_, p3_);
+    double c = distance(p3_, p1_);
+
+    double s = sem_per(a, b, c);
+    double area = tr_area(s, a, b, c);
+
+    return (2 * area / a);
+}
 
 int main(){
     double x1, y1, x2, y2, x3, y3;
@@ -58,5 +58,5 @@ int main(){
     Point p2(x2, y2);
     Point p3(x3,y3);
     Triangle tr(p1, p2, p3);
-    std::cout << tr.HeightLength() << '\n';
+    std::cout << "Height = " << tr.HeightLength() << '\n';
 }
