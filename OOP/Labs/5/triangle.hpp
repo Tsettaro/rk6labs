@@ -6,5 +6,6 @@ private:
     double tr_area(double, double, double);
 public:
     Triangle(Point& p1, Point& p2, Point& p3): _p1(p1), _p2(p2), _p3(p3) {}
+    double distance(Point&, Point&);
     void HeightLengths();
 };

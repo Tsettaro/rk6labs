@@ -1,19 +1,15 @@
 #include <iostream>
 #include <cmath>
-#include <cstdio>
 #include "point.hpp"
 #include "triangle.hpp"
 
-Point Point::from_stdin() {
-    double a, b;
-    while((scanf("%lf %lf", &a, &b)) != 2){
-        while(getchar() != '\n') ;
-        std::cout << "Invalid coordinates. Please try again: \n";
-    }
-    return Point(a, b);
+std::istream& operator >>(std::istream& in, Point& p){
+    char sep = ';';
+    in >> p._x >> sep >> p._y;
+    return in;
 }
 
-double Point::distance(Point& p1, Point& p2){
+double Triangle::distance(Point& p1, Point& p2){
     double dx = p1.getX() - p2.getX();
     double dy = p1.getY() - p2.getY();
     return sqrt(dx * dx + dy * dy);
@@ -25,9 +21,9 @@ double Triangle::tr_area(double a, double b, double c){
 }
 
 void Triangle::HeightLengths(){
-    double a = Point::distance(_p1, _p2);
-    double b = Point::distance(_p2, _p3);
-    double c = Point::distance(_p3, _p1);
+    double a = distance(_p1, _p2);
+    double b = distance(_p1, _p3);
+    double c = distance(_p2, _p3);
 
     double area = tr_area(a, b, c);
     if (a == 0 || b == 0 || c == 0){
@@ -38,9 +34,9 @@ void Triangle::HeightLengths(){
 }
 
 int main(){
-    Point p1 = Point::from_stdin();
-    Point p2 = Point::from_stdin();
-    Point p3 = Point::from_stdin();
+    Point p1, p2, p3;
+    std::cout << "Input x1;y1 x2;y2 x3;y3 or exit:\n";
+    std::cin >> p1 >> p2 >> p3;
     Triangle tr(p1, p2, p3);
     tr.HeightLengths();
 }
