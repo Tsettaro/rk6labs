@@ -50,16 +50,18 @@ void Triangle::HeightLengths(){
 
     double area = tr_area(a, b, c);
     if (a == 0 || b == 0 || c == 0){
-        std::cout << "One of sides is equal zero. Exit!\n";
+        std::cout << "Error. Exit!\n";
         exit(-1);
     }
-    printf("First height - %.3lf \nSecond height - %.3lf \nThird height - %.3lf\n", 2*area/a, 2*area/b, 2*area/c);
+    printf("First height - %.3lf \nSecond height - %.3lf \nThird height - %.3lf\n\n", 2*area/a, 2*area/b, 2*area/c);
 }
 
 int main(){
     Point p1, p2, p3;
     std::cout << "Input x1;y1 x2;y2 x3;y3 or exit:\n";
-    std::cin >> p1 >> p2 >> p3;
-    Triangle tr(p1, p2, p3);
-    tr.HeightLengths();
+    while(std::cin >> p1 >> p2 >> p3){
+        Triangle tr(p1, p2, p3);
+        tr.HeightLengths();
+        std::cout << "Input x1;y1 x2;y2 x3;y3 or exit:\n";
+    }
 }
