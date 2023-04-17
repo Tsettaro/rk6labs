@@ -1,62 +1,65 @@
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <cstdio>
 
 class Point {
 private:
-    double x_;
-    double y_;
+    double _x;
+    double _y;
 public:
-    Point() : x_(0), y_(0) {};
-    Point(double x, double y) : x_(x), y_(y) {};
-
-    double getX() {return x_ ;}
-    double getY() { return y_ ;}
+    Point() : _x(0), _y(0) {};
+    Point(double x, double y) : _x(x), _y(y) {};
+    static Point from_stdin();
+    double getX() {return _x ;}
+    double getY() {return _y ;}
+    static double distance(Point&, Point&);
 };
+
+Point Point::from_stdin() {
+    double a, b;
+    scanf("%lf %lf", &a, &b);
+    return Point(a, b);
+}
 
 class Triangle {
 private:
-    Point p1_;
-    Point p2_;
-    Point p3_;
-
-    double distance(Point& p1, Point& p2) {
-        double dx = p1.getX() - p2.getX();
-        double dy = p1.getY() - p2.getY();
-        return sqrt(dx * dx + dy * dy);
-    }
-
-    double sem_per(double a, double b, double c) {
-        return (a + b + c) / 2;
-    }
-
-    double tr_area(double s, double a, double b, double c) {
-        return sqrt(s * (s - a) * (s - b) * (s - c));
-    }
+    Point _p1;
+    Point _p2;
+    Point _p3;
+    double tr_area(double, double, double);
 public:
-    Triangle(Point& p1, Point& p2, Point& p3): p1_(p1), p2_(p2), p3_(p3) {}
-    double HeightLength();
+    Triangle(Point& p1, Point& p2, Point& p3): _p1(p1), _p2(p2), _p3(p3) {}
+    void HeightLengths();
 };
 
-double Triangle::HeightLength(){
-    double a = distance(p1_, p2_);
-    double b = distance(p2_, p3_);
-    double c = distance(p3_, p1_);
+double Point::distance(Point& p1, Point& p2){
+    double dx = p1.getX() - p2.getX();
+    double dy = p1.getY() - p2.getY();
+    return sqrt(dx * dx + dy * dy);
+}
+double Triangle::tr_area(double a, double b, double c){
+    double semi = (a + b + c)/2;
+    return sqrt(semi * (semi - a) * (semi - b) * (semi - c));
+}
+void Triangle::HeightLengths(){
+    double a = Point::distance(_p1, _p2);
+    double b = Point::distance(_p2, _p3);
+    double c = Point::distance(_p3, _p1);
 
-    double s = sem_per(a, b, c);
-    double area = tr_area(s, a, b, c);
-
-    return (2 * area / a);
+    double area = tr_area(a, b, c);
+    std::cout << area << '\n';
+    if (a == 0 || b == 0 || c == 0){
+        std::cout << "One of sides is equal zero. Abort!\n";
+        exit(-1);
+    }
+    printf("First height - %lf \nSecond height - %lf \nThird height - %lf\n", 2.0*area/a, 2.0*area/b, 2.0*area/c);
 }
 
 int main(){
-    double x1, y1, x2, y2, x3, y3;
-    std::cout << "Введите координаты вершин треугольника (x1 y1 ; x1 y1 ; x3 y3): \n";
-    std::cin >> x1 >> y1;
-    std::cin >> x2 >> y2;
-    std::cin >> x3 >> y3;
-    Point p1(x1, y2);
-    Point p2(x2, y2);
-    Point p3(x3,y3);
+    Point p1 = Point::from_stdin();
+    Point p2 = Point::from_stdin();
+    Point p3 = Point::from_stdin();
     Triangle tr(p1, p2, p3);
-    std::cout << "Height = " << tr.HeightLength() << '\n';
+    tr.HeightLengths();
 }
