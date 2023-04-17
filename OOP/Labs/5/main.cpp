@@ -1,19 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
-
-class Point {
-private:
-    double _x;
-    double _y;
-public:
-    Point() : _x(0), _y(0) {};
-    Point(double x, double y) : _x(x), _y(y) {};
-    static Point from_stdin();
-    static double distance(Point&, Point&);
-    double getX() {return _x ;}
-    double getY() {return _y ;}
-};
+#include "point.hpp"
+#include "triangle.hpp"
 
 Point Point::from_stdin() {
     double a, b;
@@ -23,17 +12,6 @@ Point Point::from_stdin() {
     }
     return Point(a, b);
 }
-
-class Triangle {
-private:
-    Point _p1;
-    Point _p2;
-    Point _p3;
-    double tr_area(double, double, double);
-public:
-    Triangle(Point& p1, Point& p2, Point& p3): _p1(p1), _p2(p2), _p3(p3) {}
-    void HeightLengths();
-};
 
 double Point::distance(Point& p1, Point& p2){
     double dx = p1.getX() - p2.getX();
