@@ -9,16 +9,11 @@ class Dlink
 		Dlink* _prev;
 	public:
 		Dlink() : _next(NULL), _prev(NULL) {}
-		Dlink* append(Dlink*);
+        void excluse();
 		Dlink* incr();
 		Dlink* decr();
-		void excluse();
 		Dlink* after(Dlink*);
 		Dlink* before(Dlink*);
-		Dlink* toHead();
-		Dlink* toHead(int);
-		Dlink* toTail();
-		Dlink* toTail(int);
 };
 
 class SymLink : public Dlink
@@ -27,11 +22,26 @@ class SymLink : public Dlink
 		char _let;
 	public:
 		SymLink(char let) : Dlink(), _let(let) {}
-		SymLink* seek(int);
 		SymLink* incr() {return (SymLink*) Dlink::incr();}
 		SymLink* decr() {return (SymLink*) Dlink::decr();}
 		int print();
+        int mx();
 };
+
+int SymLink::mx(){
+    SymLink *p = this->incr();
+    SymLink *q;
+    int m = -1, s1;
+    while ((p->incr())->_let != '\n'){
+        q = p->incr();
+        if (q != NULL && q->_let != '\n'){
+            s1 = abs(p->_let - q->_let);
+            if (m < s1) m = s1;
+        }
+        p = q;
+    }
+    return m;
+}
 
 int SymLink::print()
 {
@@ -47,14 +57,7 @@ int SymLink::print()
 	}
 	return(n);
 }
-SymLink* SymLink::seek(int n)
-{
-	if (n>0)
-		return (SymLink*) toTail(n);
-	if (n<0)
-		return (SymLink*) toHead(-n);
-	return this;
-}
+
 Dlink* Dlink::incr()
 {
 	return _next;
@@ -63,12 +66,7 @@ Dlink* Dlink::decr()
 {
 	return _prev;
 }
-Dlink* Dlink::append(Dlink* p)
-{
-	p->_next = this;
-	_prev = p;
-	return(p);
-}
+
 void Dlink::excluse()
 {
 	if(_next !=  NULL)
@@ -79,6 +77,7 @@ void Dlink::excluse()
 }
 Dlink* Dlink::after(Dlink* p)
 {
+
 	p->_next = _next;
 	p->_prev = this;
 	if (_next !=  NULL)
@@ -95,63 +94,25 @@ Dlink* Dlink::before(Dlink* p )
 	_prev = p;
 	return p->_prev;
 }
-Dlink* Dlink::toHead()
-{
-	Dlink* p = this;
-	Dlink* q = NULL;
-	while(p != NULL)
-	{
-		q = p;
-		p = p->_prev;
-	}
-	return q;
-}
-Dlink* Dlink::toHead(int n)
-{
-	Dlink* p = this;
-	Dlink* q = this;
-	int i = 0;
-	while(p != NULL)
-	{
-		q = p;
-		if (i == n) break;
-		p = p->_prev;
-		i++;
-	}
-	return q;
-}
-Dlink* Dlink::toTail()
-{
-	Dlink* p = this;
-	Dlink* q = NULL;
-	while(p != NULL)
-	{
-		q = p;
-		p = p->_next;
-	}
-	return q;
-}
-Dlink* Dlink::toTail(int n)
-{
-	Dlink* p = this;
-	Dlink* q = this;
-	int i = 0;
-	while(p != NULL)
-	{
-		q = p;
-		if (i == n) break;
-		p = p->_next;
-		i++;
-	}
-	return q;
-}
 
 int main(int argc, char* argv[])
 {
 	int max = 0;
-	int length, ch;
-    Dlink* link = new SymLink();
-    
+	int length = 0, ch, count = 1;
+    SymLink* head;
+	SymLink* tail;
+    SymLink* q;
+    SymLink* watch[2];
+    watch[0] = head = new SymLink('\n');
+	watch[1] = tail = new SymLink('\n');
+	tail->before(head);
+    while((ch = getchar())  !=  '\n'){
+		q = new SymLink(ch);
+		tail->before(q);
+	}
+    head->print();
+    max = head->mx();
+    std::cout << max;
 	/* if (argc>1)
 		seed = atoi(argv[1]);
 	watch[0] = head = new SymLink('\n');
