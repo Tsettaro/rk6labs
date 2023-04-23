@@ -9,7 +9,7 @@ class Dlink
 		Dlink* _prev;
 	public:
 		Dlink() : _next(NULL), _prev(NULL) {}
-        void excluse();
+        void excluse(int);
 		Dlink* incr();
 		Dlink* decr();
 		Dlink* after(Dlink*);
@@ -26,6 +26,7 @@ class SymLink : public Dlink
 		SymLink* decr() {return (SymLink*) Dlink::decr();}
 		int print();
         int mx();
+        int cs(int);
 };
 
 int SymLink::mx(){
@@ -67,7 +68,7 @@ Dlink* Dlink::decr()
 	return _prev;
 }
 
-void Dlink::excluse()
+void Dlink::excluse(int m)
 {
 	if(_next !=  NULL)
 		_next->_prev = _prev;
@@ -95,6 +96,9 @@ Dlink* Dlink::before(Dlink* p )
 	return p->_prev;
 }
 
+int SymLink::cs(int max){
+    return (abs(_let - this->incr()->_let) == max);
+}
 int main(int argc, char* argv[])
 {
 	int max = 0;
@@ -110,9 +114,20 @@ int main(int argc, char* argv[])
 		q = new SymLink(ch);
 		tail->before(q);
 	}
-    head->print();
+    if ((length = head->print() - 2) < 2){
+        std::cout << "No pairs!\n";
+        return 0;
+    }
     max = head->mx();
-    std::cout << max;
+    q = head->incr();
+    while (count < length){
+        if (q->cs(max) == true){
+            printf("%*c\n", count+1, '^');
+            head->print();
+        }
+        q = q->incr();
+        count++;
+    }
 	/* if (argc>1)
 		seed = atoi(argv[1]);
 	watch[0] = head = new SymLink('\n');
