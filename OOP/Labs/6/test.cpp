@@ -9,7 +9,7 @@ class Dlink
 		Dlink* _prev;
 	public:
 		Dlink() : _next(NULL), _prev(NULL) {}
-        void excluse(int);
+        Dlink* excluse();
 		Dlink* incr();
 		Dlink* decr();
 		Dlink* after(Dlink*);
@@ -68,13 +68,16 @@ Dlink* Dlink::decr()
 	return _prev;
 }
 
-void Dlink::excluse(int m)
+Dlink* Dlink::excluse()
 {
-	if(_next !=  NULL)
+    this->_prev->_next = _next;
+    this->_next->_prev = _prev;
+    return this;
+	/* if(_next !=  NULL)
 		_next->_prev = _prev;
 	if(_prev  !=  NULL)
 		_prev->_next = _next;
-	return;
+	return; */
 }
 Dlink* Dlink::after(Dlink* p)
 {
@@ -123,11 +126,13 @@ int main(int argc, char* argv[])
     while (count < length){
         if (q->cs(max) == true){
             printf("%*c\n", count+1, '^');
-            head->print();
-        }
+            q = (SymLink*) q->excluse();
+            //head->print();
+            count+=2;
+        } else {count++;}
         q = q->incr();
-        count++;
     }
+    q->print();
 	/* if (argc>1)
 		seed = atoi(argv[1]);
 	watch[0] = head = new SymLink('\n');
