@@ -9,10 +9,10 @@ class Dlink
 		Dlink* _prev;
 	public:
 		Dlink() : _next(NULL), _prev(NULL) {}
-        Dlink* excluse();
+        void excluse();
 		Dlink* incr();
 		Dlink* decr();
-		Dlink* after(Dlink*);
+        Dlink* toHead();
 		Dlink* before(Dlink*);
 };
 
@@ -68,26 +68,40 @@ Dlink* Dlink::decr()
 	return _prev;
 }
 
-Dlink* Dlink::excluse()
+void Dlink::excluse()
 {
-    this->_prev->_next = _next;
-    this->_next->_prev = _prev;
-    return this;
-	/* if(_next !=  NULL)
+	if(_next !=  NULL)
 		_next->_prev = _prev;
 	if(_prev  !=  NULL)
 		_prev->_next = _next;
-	return; */
+	return; 
 }
-Dlink* Dlink::after(Dlink* p)
-{
 
-	p->_next = _next;
-	p->_prev = this;
-	if (_next !=  NULL)
-		_next->_prev = p;
-	_next = p;
-	return p->_next;
+Dlink* Dlink::toHead()
+{
+	Dlink* p = this;
+	Dlink* q = NULL;
+	while(p != NULL)
+	{
+		q = p;
+		p = p->_prev;
+	}
+	return q;
+}
+
+Dlink* Dlink::toHead(int n)
+{
+	Dlink* p = this;
+	Dlink* q = this;
+	int i = 0;
+	while(p != NULL)
+	{
+		q = p;
+		if (i == n) break;
+		p = p->_prev;
+		i++;
+	}
+	return q;
 }
 Dlink* Dlink::before(Dlink* p )
 {
@@ -126,7 +140,7 @@ int main(int argc, char* argv[])
     while (count < length){
         if (q->cs(max) == true){
             printf("%*c\n", count+1, '^');
-            q = (SymLink*) q->excluse();
+            q->excluse();
             //head->print();
             count+=2;
         } else {count++;}
