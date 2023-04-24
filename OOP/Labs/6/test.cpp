@@ -12,7 +12,8 @@ class Dlink
         void excluse();
 		Dlink* incr();
 		Dlink* decr();
-        Dlink* toHead();
+        Dlink* toTail();
+		Dlink* toTail(int);
 		Dlink* before(Dlink*);
 };
 
@@ -42,6 +43,32 @@ int SymLink::mx(){
         p = q;
     }
     return m;
+}
+Dlink* Dlink::toTail()
+{
+	Dlink* p = this;
+	Dlink* q = NULL;
+	while(p != NULL)
+	{
+		q = p;
+		p = p->_next;
+	}
+	return q;
+}
+
+Dlink* Dlink::toTail(int n)
+{
+	Dlink* p = this;
+	Dlink* q = this;
+	int i = 0;
+	while(p != NULL)
+	{
+		q = p;
+		if (i == n) break;
+		p = p->_next;
+		i++;
+	}
+	return q;
 }
 
 int SymLink::print()
@@ -74,35 +101,10 @@ void Dlink::excluse()
 		_next->_prev = _prev;
 	if(_prev  !=  NULL)
 		_prev->_next = _next;
-	return; 
+	return;
 }
 
-Dlink* Dlink::toHead()
-{
-	Dlink* p = this;
-	Dlink* q = NULL;
-	while(p != NULL)
-	{
-		q = p;
-		p = p->_prev;
-	}
-	return q;
-}
 
-Dlink* Dlink::toHead(int n)
-{
-	Dlink* p = this;
-	Dlink* q = this;
-	int i = 0;
-	while(p != NULL)
-	{
-		q = p;
-		if (i == n) break;
-		p = p->_prev;
-		i++;
-	}
-	return q;
-}
 Dlink* Dlink::before(Dlink* p )
 {
 	p->_next = this;
@@ -136,17 +138,22 @@ int main(int argc, char* argv[])
         return 0;
     }
     max = head->mx();
-    q = head->incr();
+	std::cout << max << '\n';
+	int i = 1;
     while (count < length){
-        if (q->cs(max) == true){
-            printf("%*c\n", count+1, '^');
-            q->excluse();
-            //head->print();
+        if (head->incr()->cs(max) == true){
+            printf("%*c\n", i+1, '^');
+			for (int j = 0; j < 2; j++){
+				q = (SymLink*) head->toTail(i);
+            	q->excluse();
+			}
+			head->print();
             count+=2;
-        } else {count++;}
-        q = q->incr();
+        } else {
+			count++;
+			i++;
+		}
     }
-    q->print();
 	/* if (argc>1)
 		seed = atoi(argv[1]);
 	watch[0] = head = new SymLink('\n');
