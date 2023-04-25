@@ -63,6 +63,7 @@ int SymLink::print(){
 		p = q;
 		n++;
 	}
+	return(n);
 }
 
 Dlink* Dlink::incr(){
