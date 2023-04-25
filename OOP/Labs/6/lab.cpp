@@ -10,7 +10,6 @@ class Dlink{
 		Dlink() : _next(NULL), _prev(NULL) {}
         void excluse();
 		Dlink* incr();
-        Dlink* toTail();
 		Dlink* toTail(int);
 		Dlink* before(Dlink*);
 };
@@ -40,15 +39,6 @@ int SymLink::mx(){
     }
     return m;
 }
-Dlink* Dlink::toTail(){
-	Dlink* p = this;
-	Dlink* q = NULL;
-	while(p != NULL){
-		q = p;
-		p = p->_next;
-	}
-	return q;
-}
 
 Dlink* Dlink::toTail(int n){
 	Dlink* p = this;
@@ -73,7 +63,6 @@ int SymLink::print(){
 		p = q;
 		n++;
 	}
-	return(n);
 }
 
 Dlink* Dlink::incr(){
@@ -105,9 +94,8 @@ int main(){
 	SymLink* tail;
     SymLink* q;
 	SymLink *l;
-    SymLink* watch[2];
-    watch[0] = head = new SymLink('\n');
-	watch[1] = tail = new SymLink('\n');
+    head = new SymLink('\n');
+	tail = new SymLink('\n');
 	tail->before(head);
     while((ch = getchar())  !=  '\n'){
 		q = new SymLink(ch);
@@ -122,8 +110,8 @@ int main(){
 	l = head;
     while (count < length){
         if (l->incr()->is_max(max) == true){
-            printf("%*c", i-1, '^');
-			printf("%*c\n", i-1, '^');
+            printf("%*c", i, '^');
+			printf("%c\n",'^');
 			for (int j = 0; j < 2; j++){
 				q = (SymLink*) head->toTail(i);
             	q->excluse();
