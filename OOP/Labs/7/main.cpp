@@ -6,14 +6,12 @@ class Figure {
 	protected:
 		char pos[2];
 	public:
-		Figure() {};
+		Figure() {}; // нужен для реализации мн. наследования
 		Figure(char * p) {
 			pos[0] = p[0];
 			pos[1] = p[1];
 		};
-		inline bool operator==(char * p) {
-			return (pos[0] == p[0]) && (pos[1] == p[1]);
-		};
+		bool operator==(char * p) { return (pos[0] == p[0]) && (pos[1] == p[1]); };
 		virtual int attack(char * p) = 0;
 		virtual char isa() = 0;
 		void desk();
@@ -24,16 +22,13 @@ class King : virtual public Figure {
 	public:
 		King() {};
 		King(char * p) : Figure(p) {};
-		char isa() {return 'K';};
 		int attack(char * p);
 };
 
 class Rook : virtual public Figure {
-	
 	public:
 		Rook() {};
 		Rook(char * p) : Figure(p) {};
-		char isa() {return 'R';};
 		int attack(char * p);
 };
 
