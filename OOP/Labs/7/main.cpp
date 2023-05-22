@@ -4,45 +4,44 @@ using std::cout;
 
 class Figure {
 	protected:
-	char pos[2];
+		char pos[2];
 	public:
-	Figure() {};
-	Figure(char * p) {
-		pos[0] = p[0];
-		pos[1] = p[1];
-	};
-	inline bool operator==(char * p) {
-		return (pos[0] == p[0]) && (pos[1] == p[1]);
-	};
-	virtual int attack(char * p) = 0;
-	virtual char isa() = 0;
-	void desk();
-	static bool deskout(char * p);
+		Figure() {};
+		Figure(char * p) {
+			pos[0] = p[0];
+			pos[1] = p[1];
+		};
+		inline bool operator==(char * p) {
+			return (pos[0] == p[0]) && (pos[1] == p[1]);
+		};
+		virtual int attack(char * p) = 0;
+		virtual char isa() = 0;
+		void desk();
+		static bool deskout(char * p);
 };
 
 class King : virtual public Figure {
-	
 	public:
-	King() {};
-	King(char * p) : Figure(p) {};
-	char isa() {return 'K';};
-	int attack(char * p);
+		King() {};
+		King(char * p) : Figure(p) {};
+		char isa() {return 'K';};
+		int attack(char * p);
 };
 
 class Rook : virtual public Figure {
 	
 	public:
-	Rook() {};
-	Rook(char * p) : Figure(p) {};
-	char isa() {return 'R';};
-	int attack(char * p);
+		Rook() {};
+		Rook(char * p) : Figure(p) {};
+		char isa() {return 'R';};
+		int attack(char * p);
 };
 
 class Lord : public King, public Rook {
 	public:
-	Lord(char * p) : Figure(p) {};
-	char isa() {return 'L';};
-	int attack(char*);
+		Lord(char * p) : Figure(p) {};
+		char isa() {return 'L';};
+		int attack(char*);
 };
 
 bool Figure::deskout(char * p) {
