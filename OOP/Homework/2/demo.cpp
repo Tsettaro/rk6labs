@@ -35,47 +35,35 @@ namespace con { // Escape Console io block
         return (w.ws_row);
     } // romax
 
-    // ED, SCP, RCP with no parameter escape-manipulators 
-
-    // Eliminate Display
-    // Spacing Screen by FormFeed (Scrooling Down)
+     class estream {
+        private: 
+            string escape; // Escape string
+        public: 
+            estream(string e): escape(e) {};
+            friend ostream & operator << (ostream & , estream);
+    };
 
     ostream & ED(ostream & s) {
         return s << string("\033[2J");
-    } // ED
-
-    // Eliminate Line
-    // (Clear Line by spaces from cursor position)
+    }
 
     ostream & EL(ostream & s) {
         return s << string("\033[K");
-    } // EL
-
-    // Console class for escape-manipulators
-    //  stream with parameter(s)
-
-    class estream {
-        private: string escape; // Escape string
-        public: estream(string e): escape(e) {};
-        friend ostream & operator << (ostream & , estream);
-    }; // estream
-
-    // friend overload << for escape output 
+    }
 
     ostream & operator << (ostream & s, estream e) {
         s << e.escape << flush;
         return s;
-    } // <<()
-
-    // escape manipulator with 2 int parameters
-    // to remove CUrsor in y row & x col Position 
-    // (equal $ echo -ne "\033[y;xH")
+    }
 
     estream CUP(int y, int x) { // CUrsor Position
         ostringstream sout; // output string stream
         sout << "\033[" << y << ";" << x << "H"; // gotoxy ESC  
         return estream(sout.str()); // return ESC object
     } // CUP
+    // escape manipulator with 2 int parameters
+    // to remove CUrsor in y row & x col Position 
+    // (equal $ echo -ne "\033[y;xH")
 
     // Set pseudo-Graphic Regime escape manipulator
     // (equal $echo -ne "\033[Rm")
@@ -161,11 +149,6 @@ int usage() {
 
 int main(int argc, char ** argv) {
     int m; // mosaico type
-
-    // Parse command line
-
-    if ((argc = parser(argc, argv)) == 0)
-        return (usage());
 
     // init graph mode to clear screen  
 
