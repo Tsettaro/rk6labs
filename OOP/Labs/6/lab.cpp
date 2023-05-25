@@ -10,8 +10,6 @@ class Dlink{
 		Dlink() : _next(NULL), _prev(NULL) {}
         void excluse();
 		Dlink* incr();
-		Dlink* decr();
-        Dlink* toTail();
 		Dlink* toTail(int);
 		Dlink* before(Dlink*);
 };
@@ -22,10 +20,9 @@ class SymLink : public Dlink{
 	public:
 		SymLink(char let) : Dlink(), _let(let) {}
 		SymLink* incr() {return (SymLink*) Dlink::incr();}
-		SymLink* decr() {return (SymLink*) Dlink::decr();}
 		int print();
         int mx();
-        int cs(int);
+        int is_max(int);
 };
 
 int SymLink::mx(){
@@ -41,15 +38,6 @@ int SymLink::mx(){
         p = q;
     }
     return m;
-}
-Dlink* Dlink::toTail(){
-	Dlink* p = this;
-	Dlink* q = NULL;
-	while(p != NULL){
-		q = p;
-		p = p->_next;
-	}
-	return q;
 }
 
 Dlink* Dlink::toTail(int n){
@@ -97,19 +85,18 @@ Dlink* Dlink::before(Dlink* p ){
 	return p->_prev;
 }
 
-int SymLink::cs(int max){
+int SymLink::is_max(int max){
     return (abs(_let - this->incr()->_let) == max);
 }
-int main(int argc, char* argv[]){
+int main(){
 	int max = 0;
 	int length = 0, ch, count = 1;
     SymLink* head;
 	SymLink* tail;
     SymLink* q;
 	SymLink *l;
-    SymLink* watch[2];
-    watch[0] = head = new SymLink('\n');
-	watch[1] = tail = new SymLink('\n');
+    head = new SymLink('\n');
+	tail = new SymLink('\n');
 	tail->before(head);
     while((ch = getchar())  !=  '\n'){
 		q = new SymLink(ch);
@@ -123,8 +110,9 @@ int main(int argc, char* argv[]){
 	int i = 1;
 	l = head;
     while (count < length){
-        if (l->incr()->cs(max) == true){
-            printf("%*c\n", i+1, '^');
+        if (l->incr()->is_max(max) == true){
+            printf("%*c", i, '^');
+			printf("%c\n",'^');
 			for (int j = 0; j < 2; j++){
 				q = (SymLink*) head->toTail(i);
             	q->excluse();
@@ -137,4 +125,11 @@ int main(int argc, char* argv[]){
 			i++;
 		}
     }
+	q = head;
+	while (q != NULL){
+		l = q->incr();
+		q->excluse();
+		delete q;
+		q = l;
+	}
 }
