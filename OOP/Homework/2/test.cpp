@@ -63,7 +63,7 @@ void interruptor(int signo){
  	return;
 }
 
-void resizeHandler(int signo) {
+void resize(int signo) {
     if (con::romax() % 2 == 0)
         mid = con::romax() / 2;
     else
@@ -90,7 +90,7 @@ int main(int argc,char** argv){
  		mid = (con::romax()/2) + 1;
 
  	signal(SIGINT,interruptor);
-	signal(SIGWINCH, resizeHandler);
+	signal(SIGWINCH, resize);
  	while(done < 1){
  		for(x1 = 1, x2 = con::romax(); x1 <= mid && x2 >= mid;x1 += 2,x2 -= 2){
  			for(int i = 0; i < 2; i++)
