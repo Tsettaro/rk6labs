@@ -4,33 +4,51 @@
 #include <string>
 using namespace std;
 
-int main(int argc, char **argv){
-    int parts, part_size, file_size;
+class File{
+    private:
+        string name;
+        int parts;
+        string get_name(int index){
+            return name+ "_" + to_string(index);
+        }
+    public:
+        File(const string &file_name, int p) : parts(p) {name = file_name;};
+        void split_file();
+};
+
+void File::split_file(){
+    int part_size, file_size;
     ifstream in;
-    if (argc < 3) return -1;
-    in.open(argv[1], ios::binary);
+    in.open(name, ios::binary);
     if (!in){
         cerr << "ERROR! FILE DOESN'T EXIST!";
-        return -2;
+        exit(-2);
     }
-    parts = atoi(argv[2]);
     file_size = in.seekg(0, ios::end).tellg();
     in.seekg(0, ios::beg);
     if (file_size < parts){
         cerr << "ERROR! SIZE OF FILE LESS THAN PARTS!";
-        return -3;
+        exit(-3);
     }
     part_size = file_size / parts;
-    cout << part_size << endl;
+    //cout << part_size << endl;
 
     for (int i = 0; i < parts; i++){
         ofstream out;
-        string name = argv[1];
         char buf[512];
-        out.open(name+ "_" + to_string(i+1));
+        out.open(get_name(i+1));
         in.read(buf, part_size);
         out.write(buf, part_size);
         out.close();
     }
     in.close();
+}
+int main(int argc, char **argv){
+    if (argc < 3) return -1;
+    string name;
+    int num_parts;
+    name = argv[1];
+    num_parts = atoi(argv[2]);
+    File f(name, num_parts);
+    f.split_file();
 }
