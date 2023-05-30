@@ -12,26 +12,31 @@ class File{
             return name+ "_" + to_string(index);
         }
     public:
-        File(const string &file_name, int p) : parts(p) {name = file_name;};
+        File (const string &file_name, int p) : name(file_name), parts(p) {};
         void split_file();
 };
 
 void File::split_file(){
-    int part_size, file_size;
+    int part_size, text_length;
     ifstream in;
     in.open(name, ios::binary);
+
     if (!in){
         cerr << "ERROR! FILE DOESN'T EXIST!";
         exit(-2);
     }
-    file_size = in.seekg(0, ios::end).tellg();
-    in.seekg(0, ios::beg);
-    if (file_size < parts){
-        cerr << "ERROR! SIZE OF FILE LESS THAN PARTS!";
+    if (parts < 1){
+        cerr << "ERROR! PARTS LESS THAN 1!";
         exit(-3);
     }
-    part_size = file_size / parts;
-    //cout << part_size << endl;
+
+    text_length = in.seekg(0, ios::end).tellg();
+    in.seekg(0, ios::beg);
+    if (text_length < parts){
+        cerr << "ERROR! SIZE OF FILE LESS THAN PARTS!";
+        exit(-4);
+    }
+    part_size = text_length / parts;
 
     for (int i = 0; i < parts; i++){
         ofstream out;
