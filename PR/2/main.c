@@ -6,22 +6,24 @@
 typedef struct Node {
     char data;
     struct Node* next;
+    struct Node* prev;
 } Node;
 
 Node* createNode(char data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) {
         printf("Memory allocation error.\n");
-        exit(1);
+        exit(-1);
     }
     
     newNode->data = data;
     newNode->next = NULL;
+    newNode->prev = NULL;
     
     return newNode;
 }
 
-void insertNode(Node** head, char data) {
+void insert(Node** head, char data) {
     Node* newNode = createNode(data);
     
     if (*head == NULL) {
@@ -32,121 +34,122 @@ void insertNode(Node** head, char data) {
             current = current->next;
         }
         current->next = newNode;
+        current->next->prev = current;
     }
 }
 
-void printList(Node* head) {
-    Node* current = head;
+
+Node* shift(Node* text, int position) {
+    Node* current = text;
+    Node* temp;
+    int count = 0;
     
+    while (count < position) {
+        current = current->next;
+        count++;
+    }
+
+    if (current->next){
+        temp = current;
+        current = current->next;
+        current->prev = temp->prev;
+        if (temp->prev != NULL) temp->prev->next = current;
+        else current->prev = NULL;
+        free(temp);
+    } else {
+        temp = current;
+        current = current->prev;
+        if (current) current->next = temp->next;
+        free(temp);
+    }
+
+    if (position == 0) return current;
+    else return text;
+}
+
+Node* exclude(Node* text, int num, unsigned int seed) {
+    srand(seed);
+    int length = 0;
+
+    Node* head = text;
+    while (head != NULL) {
+        length++;
+        head = head->next;
+    }
+    if (num > length){
+        printf("ERROR! Length of text less than count of exclusion!\n");
+        exit(-1);
+    }
+    for (int i = 0; i < num; i++) {
+        int position = rand() % length;
+        text = shift(text, position);
+        length--;
+    }
+    return text;
+}
+
+void printList(Node* text) {
+    Node* current = text;
     while (current != NULL) {
         printf("%c", current->data);
         current = current->next;
     }
-    
     printf("\n");
 }
 
-void freeList(Node* head) {
-    Node* current = head;
-    
-    while (current != NULL) {
-        Node* temp = current;
-        current = current->next;
+void freeList(Node* text) {
+    Node *temp;
+    while (text){
+        temp = text;
+        text = text->next;
         free(temp);
     }
 }
-
-void shiftCharacters(Node* head, int position) {
-    Node* current = head;
-    int count = 0;
-    
-    // Move to the node at the given position
-    while (count < position && current != NULL) {
-        current = current->next;
-        count++;
-    }
-    
-    if (current == NULL || current->next == NULL) {
-        return;  // Invalid position or last node, no need to shift
-    }
-    
-    Node* nextNode = current->next;
-    while (nextNode != NULL) {
-        current->data = nextNode->data;
-        current = nextNode;
-        nextNode = nextNode->next;
-    }
-    
-    // Remove the last node
-    current->next = NULL;
-    free(nextNode);
-}
-
-void excludeRandomCharacters(Node* head, int numExclusions, unsigned int seed) {
-    srand(seed);
-    int length = 0;
-    
-    // Count the number of nodes in the list
-    Node* current = head;
-    while (current != NULL) {
-        length++;
-        current = current->next;
-    }
-    
-    // Exclude random characters
-    for (int i = 0; i < numExclusions; i++) {
-        int position = rand() % length;
-        shiftCharacters(head, position);
-        length--;
-    }
-}
-
 int main(int argc, char* argv[]) {
     if (argc != 7) {
-        printf("Usage: ./program -f [input_file] -n [num_exclusions] -s [seed]\n");
-        return 1;
+        printf("INCORRECT INPUT: ./a.out -f [input_file] -n [num_exclusions] -s [seed]\n");
+        return -1;
     }
     
-    char* inputFileName;
-    int numExclusions;
+    char* file_name;
+    int num_exclude;
     unsigned int seed;
     
-    // Parsing command line arguments
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-f") == 0) {
-            inputFileName = argv[++i];
+            file_name = argv[++i];
         } else if (strcmp(argv[i], "-n") == 0) {
-            numExclusions = atoi(argv[++i]);
+            num_exclude = atoi(argv[++i]);
         } else if (strcmp(argv[i], "-s") == 0) {
             seed = atoi(argv[++i]);
         }
     }
     
-    // Read input file
-    FILE* inputFile = fopen(inputFileName, "r");
-    if (inputFile == NULL) {
+    if (num_exclude < 0){
+        exit(-2);
+    }
+
+    FILE* in = fopen(file_name, "r");
+
+    if (!in) {
         printf("Error opening input file.\n");
-        return 1;
+        return -1;
     }
-    
-    // Create linked list from input text
-    Node* head = NULL;
+
+    Node* text = NULL;
     char ch;
-    while ((ch = fgetc(inputFile)) != EOF) {
-        insertNode(&head, ch);
+    while ((ch = fgetc(in)) != EOF) {
+        insert(&text, ch);
     }
-    
-    fclose(inputFile);
-    
-    // Exclude random characters
-    excludeRandomCharacters(head, numExclusions, seed);
-    
-    // Print modified text
-    printf("Modified text:\n");
-    printList(head);
-    
-    // Cleanup
-    freeList(head);
-    
-    return 0;
+    fclose(in);
+
+    printf("Input text: ");
+    printList(text);
+
+    text = exclude(text, num_exclude, seed);
+
+    printf("Modified text: ");
+    printList(text);
+
+    freeList(text);
 }
