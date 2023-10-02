@@ -4,5 +4,5 @@ low ([1-9]{0,2}[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))
 #include <stdio.h>
 %}
 %%
-{high}(\.{low}){3}  ECHO; putchar(' ');
-. ;
+{high}(\.{low}){3}  ECHO; putchar('\n');
+.|\n ;
