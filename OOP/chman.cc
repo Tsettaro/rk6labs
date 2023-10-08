@@ -40,13 +40,13 @@ void Figure::desk() {
 
 void Figure::game(){
     string move;
-    while (pos[0] != 'a' && pos[1] != '1'){
+    while (true){
 		this->desk();
         if (cur_player == 1) {
             cout << "Ход игрока: ";
             std::cin >> move;
-            if (deskout(move) || pos == move ||(pos[0] != move[0] && pos[1] != move[1]) || (pos[0] == move[0] && move[1] > pos[1]) || (pos[1] == move[1] && move[0] > pos[0])) {
-                cout << "Неверный ход! Игра завершается." << std::endl;
+            if (deskout(move) || *this == move ||(pos[0] != move[0] && pos[1] != move[1]) || (pos[0] == move[0] && move[1] > pos[1]) || (pos[1] == move[1] && move[0] > pos[0])) {
+                cout << "Game over!" << std::endl;
                 exit(-1);
             }
             makeMove(move);
@@ -62,6 +62,12 @@ void Figure::game(){
             makeMove(move);
         }
         cur_player = (cur_player == 1) ? 2 : 1;
+        if (*this == "a1") break;
+    }
+    if (cur_player == 1){
+        cout << "Победил игрок!" << std::endl;
+    } else {
+        cout << "Победил компьютер!" << std::endl;
     }
 }
 
