@@ -2,23 +2,22 @@
 #define CHESSMAN
 
 #include <iostream>
+#include <string>
+using std::string;
 
 class Figure {
-	protected:
-		char pos[2];
-	public:
-		Figure() {};
-		Figure(char * p) {
-			pos[0] = p[0];
-			pos[1] = p[1];
-		};
-		inline bool operator==(char * p) {
-			return (pos[0] == p[0]) && (pos[1] == p[1]);
-		};
-		virtual int attack(char * p) = 0;
-		virtual char isa() = 0;
-		void desk();
-		static bool deskout(char * p);
+    private:
+        char pos[2];
+        int cur_player;
+    public:
+        Figure() : cur_player(1) {pos[0] = 'h'; pos[1] = '8';};
+        bool operator==(string p) { return (pos[0] == p[0]) && (pos[1] == p[1]); };
+        static bool deskout(string p);
+        int attack(string p);
+        char isa() {return 'R';};
+        void desk();
+        void game();
+        void makeMove(string p);
 };
 
 #endif

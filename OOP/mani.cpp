@@ -3,6 +3,7 @@
 
 using std::cout;
 using std::string;
+using std::cin;
 
 class Figure {
     private:
@@ -85,7 +86,7 @@ void Figure::makeMove(string p){
     pos[1] = p[1];
 }
 
-int main(int argc, char * argv[]) {
+int main() {
     Figure k;
     k.game();
 }
