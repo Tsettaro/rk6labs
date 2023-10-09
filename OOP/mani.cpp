@@ -134,46 +134,8 @@ void Figure::desk() {
 	cout << "  a b c d e f g h\n";
 	return;
 }
-/*
-void Figure::game(){
-    string move;
-    while (true){
-		this->desk();
-        if (cur_player == 1) {
-            cout << "Ход игрока: ";
-            std::cin >> move;
-            if (deskout(move) || *this == move ||(pos[0] != move[0] && pos[1] != move[1]) || (pos[0] == move[0] && move[1] > pos[1]) || (pos[1] == move[1] && move[0] > pos[0])) {
-                cout << "Game over!" << std::endl;
-                exit(-1);
-            }
-            makeMove(move);
-        } else {
-            if (int(pos[0]) - 96 > int(pos[1]) - 48){
-                move = char('a' + int(pos[1])-49);
-                move+=pos[1];
-            } else{
-                move = pos[0];
-                move+=char('1' + (int(pos[0]) - 97));
-            }
-            cout << "Ход компьютера: " << move << std::endl;
-            makeMove(move);
-        }
-        if (*this == "a1") break;
-        cur_player = (cur_player == 1) ? 2 : 1;
-    }
-    if (cur_player == 1){
-        cout << "Победил игрок!" << std::endl;
-    } else {
-        cout << "Победил компьютер!" << std::endl;
-    }
-}
 
-void Figure::makeMove(string p){
-    pos[0] = p[0];
-    pos[1] = p[1];
-}
-*/
 int main() {
-    Rook k("e5");
-    k.desk();
+    int i = 0;
+    Rook k((char*)"h8");
 }
