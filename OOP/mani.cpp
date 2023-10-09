@@ -50,14 +50,12 @@ class Rook: public Figure{
 
 class Player{
     protected:
-        char* name;
         Rook* rook;
     public:
         Player(Rook* p) {
             rook = p;
         }
-        virtual int strategy() = 0;
-        char* get_name();
+        virtual int strategy() = 0
         int request();
 };
 
@@ -68,12 +66,9 @@ int Player::request(){
         return 1;
     }
 }
-char* Player::get_name(){
-    return name;
-}
 
 class Human : public Player{
-    Human(Rook* rook, char* p) : Player(rook) {name = p;};
+    Human(Rook* rook) : Player(rook);
     int strategy();
 };
 
@@ -83,7 +78,7 @@ int Human::strategy(){
 }
 
 class AI : public Player{
-    AI(Rook* rook, char* p) : Player(rook) {name = p;};
+    AI(Rook* rook) : Player(rook);
     int strategy();
 };
 
@@ -138,4 +133,10 @@ void Figure::desk() {
 int main() {
     int i = 0;
     Rook k((char*)"h8");
+    Player* player[] = {new Human(&k, "Human"), new AI(&k, "Computer")};
+    while (player[i]->request()){
+        if (i == 0){
+            cout << "TEST";
+        }
+    }
 }
