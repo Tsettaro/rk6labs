@@ -2,22 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "lldb",
-      "request": "launch",
-      "name": "Debug",
-      "program": "${workspaceFolder}/OOP/Homework/2/a",
-      "args": [],
-      "cwd": "${workspaceFolder}"
-    },
-    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/TECH/Documents/rk6labs",
-      "program": "c:/Users/TECH/Documents/rk6labs/build/Debug/outDebug",
+      "cwd": "c:/Users/TECH/Documents/rk6labs/OOP",
+      "program": "c:/Users/TECH/Documents/rk6labs/OOP/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
