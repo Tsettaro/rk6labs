@@ -61,8 +61,8 @@ void Figure::game(){
             cout << "Ход компьютера: " << move << std::endl;
             makeMove(move);
         }
-        cur_player = (cur_player == 1) ? 2 : 1;
         if (*this == "a1") break;
+        cur_player = (cur_player == 1) ? 2 : 1;
     }
     if (cur_player == 1){
         cout << "Победил игрок!" << std::endl;

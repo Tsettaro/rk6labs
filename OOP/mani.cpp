@@ -88,7 +88,6 @@ class AI : public Player{
 };
 
 int AI::strategy(){
-    cout << "Ход компьютера: ";
     char s[2];
     char *pos = rook->get_pos();
     if (int(pos[0]) - 96 > int(pos[1]) - 48){
@@ -98,12 +97,8 @@ int AI::strategy(){
         s[0] = pos[0];
         s[1] = char('1' + (int(pos[0]) - 97));
     }
-    if (*rook == s){
-        return 0;
-    } else{
-        cout << s[0] << s[1] << std::endl;
-        *rook = s;
-    }
+    cout << "Ход компьютера: " << s[0] << s[1] << std::endl;
+    *rook = s;
     return 1;
 }
 bool Figure::deskout(char* p) {
