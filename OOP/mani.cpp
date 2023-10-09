@@ -1,30 +1,116 @@
 #include <iostream>
-#include <string>
 
 using std::cout;
-using std::string;
 using std::cin;
 
 class Figure {
-    private:
-        char pos[2];
-        int cur_player;
-    public:
-        Figure() : cur_player(1) {pos[0] = 'h'; pos[1] = '8';};
-        bool operator==(string p) { return (pos[0] == p[0]) && (pos[1] == p[1]); };
-        static bool deskout(string p);
-        int attack(string p);
-        char isa() {return 'R';};
-        void desk();
-        void game();
-        void makeMove(string p);
+	protected:
+		char pos[2];
+	public:
+		Figure() {}; // нужен для реализации мн. наследования
+		Figure(char * p) {
+			pos[0] = p[0];
+			pos[1] = p[1];
+		};
+		bool operator==(char * p) { return (pos[0] == p[0]) && (pos[1] == p[1]); };
+        Figure& operator=(char*);
+        friend std::istream& operator>>(std::istream&, Figure&);
+		virtual int attack(char * p) = 0;
+		virtual char isa() = 0;
+		void desk();
+		static bool deskout(char * p);
+        char* get_pos() {return pos;};
 };
 
-bool Figure::deskout(string p) {
+Figure& Figure::operator=(char* s){
+    pos[0] = s[0];
+    pos[1] = s[1];
+    return (*this);
+}
+
+std::istream& operator>>(std::istream& in, Figure& A){
+    char s[2];
+    std::cin.unsetf(std::ios::skipws);
+    in >> s[0] >> s[1];
+    s[0] = tolower(s[0]);
+    in.ignore(64, '\n');
+    if ((A.attack(s) == 0) || (A == s)){
+        in.clear((std::ios::failbit | in.rdstate()));
+    }
+    A = s;
+    return in;
+}
+
+class Rook: public Figure{
+    public:
+        Rook(char* p) : Figure(p){};
+        int attack(char*);
+        char isa() {return 'R';};
+};
+
+class Player{
+    protected:
+        char* name;
+        Rook* rook;
+    public:
+        Player(Rook* p) {
+            rook = p;
+        }
+        virtual int strategy() = 0;
+        char* get_name();
+        int request();
+};
+
+int Player::request(){
+    if (*rook == (char*)"a1"){
+        return 0;
+    } else{
+        return 1;
+    }
+}
+char* Player::get_name(){
+    return name;
+}
+
+class Human : public Player{
+    Human(Rook* rook, char* p) : Player(rook) {name = p;};
+    int strategy();
+};
+
+int Human::strategy(){
+    cout << "Ход игрока: ";
+    return (bool)(cin >> *rook);
+}
+
+class AI : public Player{
+    AI(Rook* rook, char* p) : Player(rook) {name = p;};
+    int strategy();
+};
+
+int AI::strategy(){
+    cout << "Ход компьютера: ";
+    char s[2];
+    char *pos = rook->get_pos();
+    if (int(pos[0]) - 96 > int(pos[1]) - 48){
+        s[0] = char('a' + int(pos[1])-49);
+        s[1] = pos[1];
+    } else{
+        s[0] = pos[0];
+        s[1] = char('1' + (int(pos[0]) - 97));
+    }
+    if (*rook == s){
+        return 0;
+    } else{
+        cout << s[0] << s[1] << std::endl;
+        *rook = s;
+    }
+    return 1;
+}
+bool Figure::deskout(char* p) {
     return ((p[0] > 'h') || (p[0] < 'a') || (p[1] < '1') || (p[1] > '8'));
 }
 
-int Figure::attack(string p) {
+int Rook::attack(char *p) {
     if (deskout(p) || (p[1] == pos[1] && p[0] > pos[0]) || (p[0] == pos[0] && p[1] > pos[1]))
         return 0;
     int x = abs(p[0] - pos[0]);
@@ -53,7 +139,7 @@ void Figure::desk() {
 	cout << "  a b c d e f g h\n";
 	return;
 }
-
+/*
 void Figure::game(){
     string move;
     while (true){
@@ -77,8 +163,8 @@ void Figure::game(){
             cout << "Ход компьютера: " << move << std::endl;
             makeMove(move);
         }
-        cur_player = (cur_player == 1) ? 2 : 1;
         if (*this == "a1") break;
+        cur_player = (cur_player == 1) ? 2 : 1;
     }
     if (cur_player == 1){
         cout << "Победил игрок!" << std::endl;
@@ -91,8 +177,8 @@ void Figure::makeMove(string p){
     pos[0] = p[0];
     pos[1] = p[1];
 }
-
+*/
 int main() {
-    Figure k;
-    k.game();
+    Rook k("e5");
+    k.desk();
 }
