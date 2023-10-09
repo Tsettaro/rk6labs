@@ -1,21 +1,13 @@
 #include "chman.h"
 
-using std::cout;
-using std::string;
-using std::cin;
-
-bool Figure::deskout(string p) {
-    return ((p[0] > 'h') || (p[0] < 'a') || (p[1] < '1') || (p[1] > '8'));
+Figure& Figure::operator=(char* s){
+    pos[0] = s[0];
+    pos[1] = s[1];
+    return (*this);
 }
 
-int Figure::attack(string p) {
-    if (deskout(p) || (p[1] == pos[1] && p[0] > pos[0]) || (p[0] == pos[0] && p[1] > pos[1]))
-        return 0;
-    int x = abs(p[0] - pos[0]);
-    int y = abs(p[1] - pos[1]);
-    if ((x + y > 0 && y == 0) || (x + y > 0 && x == 0))
-        return 1;
-    return 0;
+bool Figure::deskout(char* p) {
+    return ((p[0] > 'h') || (p[0] < 'a') || (p[1] < '1') || (p[1] > '8'));
 }
 
 void Figure::desk() {
@@ -36,42 +28,4 @@ void Figure::desk() {
 	}
 	cout << "  a b c d e f g h\n";
 	return;
-}
-
-void Figure::game(){
-    string move;
-    while (true){
-		this->desk();
-        if (cur_player == 1) {
-            cout << "Ход игрока: ";
-            std::cin >> move;
-            if (deskout(move) || *this == move ||(pos[0] != move[0] && pos[1] != move[1]) || (pos[0] == move[0] && move[1] > pos[1]) || (pos[1] == move[1] && move[0] > pos[0])) {
-                cout << "Game over!" << std::endl;
-                exit(-1);
-            }
-            makeMove(move);
-        } else {
-            if (int(pos[0]) - 96 > int(pos[1]) - 48){
-                move = char('a' + int(pos[1])-49);
-                move+=pos[1];
-            } else{
-                move = pos[0];
-                move+=char('1' + (int(pos[0]) - 97));
-            }
-            cout << "Ход компьютера: " << move << std::endl;
-            makeMove(move);
-        }
-        if (*this == "a1") break;
-        cur_player = (cur_player == 1) ? 2 : 1;
-    }
-    if (cur_player == 1){
-        cout << "Победил игрок!" << std::endl;
-    } else {
-        cout << "Победил компьютер!" << std::endl;
-    }
-}
-
-void Figure::makeMove(string p){
-    pos[0] = p[0];
-    pos[1] = p[1];
 }
