@@ -7,9 +7,7 @@ class Player{
         Rook* rook;
         const char* name;
     public:
-        Player(Rook* p) {
-            rook = p;
-        }
+        Player(Rook* p) : rook(p){};
         virtual int strategy() = 0;
         int request();
         const char* get_name();

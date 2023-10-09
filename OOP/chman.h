@@ -15,10 +15,10 @@ class Figure {
 		};
 		bool operator==(char * p) { return (pos[0] == p[0]) && (pos[1] == p[1]); };
         Figure& operator=(char*);
-		virtual int attack(char * p) = 0;
+		virtual int attack(char *) = 0;
 		virtual char isa() = 0;
 		void desk();
-		static bool deskout(char * p);
+		static bool deskout(char *);
         char* get_pos() {return pos;};
 };
 
