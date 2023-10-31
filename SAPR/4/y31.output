@@ -1,0 +1,154 @@
+Grammar
+
+    0 $accept: input $end
+
+    1 input: input line
+    2      | ε
+
+    3 line: '\n'
+    4     | error '\n'
+    5     | expr '\n'
+
+    6 expr: ONE ONE expr_n ZERO
+
+    7 expr_n: expr
+    8       | ε
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 3 4 5
+    error (256) 4
+    ONE (258) 6
+    ZERO (259) 6
+
+
+Nonterminals, with rules where they appear
+
+    $accept (6)
+        on left: 0
+    input (7)
+        on left: 1 2
+        on right: 0 1
+    line (8)
+        on left: 3 4 5
+        on right: 1
+    expr (9)
+        on left: 6
+        on right: 5 7
+    expr_n (10)
+        on left: 7 8
+        on right: 6
+
+
+State 0
+
+    0 $accept: • input $end
+
+    $default  reduce using rule 2 (input)
+
+    input  go to state 1
+
+
+State 1
+
+    0 $accept: input • $end
+    1 input: input • line
+
+    $end   shift, and go to state 2
+    error  shift, and go to state 3
+    ONE    shift, and go to state 4
+    '\n'   shift, and go to state 5
+
+    line  go to state 6
+    expr  go to state 7
+
+
+State 2
+
+    0 $accept: input $end •
+
+    $default  accept
+
+
+State 3
+
+    4 line: error • '\n'
+
+    '\n'  shift, and go to state 8
+
+
+State 4
+
+    6 expr: ONE • ONE expr_n ZERO
+
+    ONE  shift, and go to state 9
+
+
+State 5
+
+    3 line: '\n' •
+
+    $default  reduce using rule 3 (line)
+
+
+State 6
+
+    1 input: input line •
+
+    $default  reduce using rule 1 (input)
+
+
+State 7
+
+    5 line: expr • '\n'
+
+    '\n'  shift, and go to state 10
+
+
+State 8
+
+    4 line: error '\n' •
+
+    $default  reduce using rule 4 (line)
+
+
+State 9
+
+    6 expr: ONE ONE • expr_n ZERO
+
+    ONE  shift, and go to state 4
+
+    $default  reduce using rule 8 (expr_n)
+
+    expr    go to state 11
+    expr_n  go to state 12
+
+
+State 10
+
+    5 line: expr '\n' •
+
+    $default  reduce using rule 5 (line)
+
+
+State 11
+
+    7 expr_n: expr •
+
+    $default  reduce using rule 7 (expr_n)
+
+
+State 12
+
+    6 expr: ONE ONE expr_n • ZERO
+
+    ZERO  shift, and go to state 13
+
+
+State 13
+
+    6 expr: ONE ONE expr_n ZERO •
+
+    $default  reduce using rule 6 (expr)

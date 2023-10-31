@@ -1,0 +1,164 @@
+Grammar
+
+    0 $accept: input $end
+
+    1 input: input line
+    2      | ε
+
+    3 line: '\n'
+    4     | error '\n'
+    5     | zeros '\n'
+    6     | ones '\n'
+
+    7 zeros: ZERO
+    8      | zeros ZERO
+
+    9 ones: ONE
+   10     | ones ONE
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 3 4 5 6
+    error (256) 4
+    ONE (258) 9 10
+    ZERO (259) 7 8
+
+
+Nonterminals, with rules where they appear
+
+    $accept (6)
+        on left: 0
+    input (7)
+        on left: 1 2
+        on right: 0 1
+    line (8)
+        on left: 3 4 5 6
+        on right: 1
+    zeros (9)
+        on left: 7 8
+        on right: 5 8
+    ones (10)
+        on left: 9 10
+        on right: 6 10
+
+
+State 0
+
+    0 $accept: • input $end
+
+    $default  reduce using rule 2 (input)
+
+    input  go to state 1
+
+
+State 1
+
+    0 $accept: input • $end
+    1 input: input • line
+
+    $end   shift, and go to state 2
+    error  shift, and go to state 3
+    ONE    shift, and go to state 4
+    ZERO   shift, and go to state 5
+    '\n'   shift, and go to state 6
+
+    line   go to state 7
+    zeros  go to state 8
+    ones   go to state 9
+
+
+State 2
+
+    0 $accept: input $end •
+
+    $default  accept
+
+
+State 3
+
+    4 line: error • '\n'
+
+    '\n'  shift, and go to state 10
+
+
+State 4
+
+    9 ones: ONE •
+
+    $default  reduce using rule 9 (ones)
+
+
+State 5
+
+    7 zeros: ZERO •
+
+    $default  reduce using rule 7 (zeros)
+
+
+State 6
+
+    3 line: '\n' •
+
+    $default  reduce using rule 3 (line)
+
+
+State 7
+
+    1 input: input line •
+
+    $default  reduce using rule 1 (input)
+
+
+State 8
+
+    5 line: zeros • '\n'
+    8 zeros: zeros • ZERO
+
+    ZERO  shift, and go to state 11
+    '\n'  shift, and go to state 12
+
+
+State 9
+
+    6 line: ones • '\n'
+   10 ones: ones • ONE
+
+    ONE   shift, and go to state 13
+    '\n'  shift, and go to state 14
+
+
+State 10
+
+    4 line: error '\n' •
+
+    $default  reduce using rule 4 (line)
+
+
+State 11
+
+    8 zeros: zeros ZERO •
+
+    $default  reduce using rule 8 (zeros)
+
+
+State 12
+
+    5 line: zeros '\n' •
+
+    $default  reduce using rule 5 (line)
+
+
+State 13
+
+   10 ones: ones ONE •
+
+    $default  reduce using rule 10 (ones)
+
+
+State 14
+
+    6 line: ones '\n' •
+
+    $default  reduce using rule 6 (line)
