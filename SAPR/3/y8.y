@@ -1,22 +1,24 @@
 %{
-    #include <stdio.h>
-    int yylex();
-    int yyerror(char*);
+#include <stdio.h>
+int yylex();
+int yyerror(char*);
 %}
 
 %start input
 %token ONE ZERO
 
 %%
-input : {printf("Enter the line: \n");}
-    | input line;
+input : input line
+    |
+    ;
 line : '\n' {printf("EMPTY LINE\n");}
     | error '\n'{yyerrok;}
-    | binary'\n';
-binary: ZERO
-    | binary ZERO
-    | ONE
-    | binary ONE;
+    | zeros'\n'{printf("CORRECT\n");}
+    | ones'\n'{printf("CORRECT\n");};
+zeros: ZERO
+    | zeros ZERO;
+ones: ONE
+    | ones ONE;
 %%
 
 int yyerror(char *s){

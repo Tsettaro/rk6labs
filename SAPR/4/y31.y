@@ -8,15 +8,14 @@ int yylex();
 %token ONE ZERO
 
 %%
-input:
-    input line
-    | /* epsilon */
+input: input line
+    |
     ;
 
 line:
     '\n' {printf("EMPTY LINE\n");}
-    | error '\n'{yyerrok;}
-    | expr {printf("CORRECT\n");}
+    | error'\n'{yyerrok;}
+    | expr'\n'{printf("CORRECT\n");}
     ;
 
 expr:
@@ -24,9 +23,9 @@ expr:
 
 expr_n:
     expr
-    | /* epsilon */
+    |
     ;
-    
+
 %%
 
 int yyerror(char *s){
