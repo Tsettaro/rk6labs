@@ -10,13 +10,11 @@ class ATM{
 		ATM(int n, int c): nominal(n), count(c){}
 		int getNom() {return nominal;}
 		int getCount() {return count;}
-		void print(){
-			std::cout << nominal << " - " << count << std::endl;
-		}
+		int getRes() {return nominal*count;}
 };
 
 bool compare(ATM &a, ATM &b){
-	return a.getNom() < b.getNom();
+	return a.getNom() > b.getNom();
 }
 void init(std::vector <ATM> &atms){
 	FILE *fp;
@@ -34,11 +32,23 @@ void init(std::vector <ATM> &atms){
 	fclose(fp);
 }
 
+int get_money(std::vector <ATM> &atm, int money){
+	int c;
+	fp = fopen("example.txt", "w");
+	for (int i = 0; i < atm.size(); i++){
+		c = money/atm[i].getNom();
+		if (c > atm[i].getCount()) money -= atm[i].getRes();
+	}
+	return money;
+}
+
 int main(){
+	int money;
 	std::vector <ATM> atms;
     init(atms);
 	std::sort(atms.begin(), atms.end(), compare);
-	for (int i = 0; i < atms.size(); i++){
-		std::cout << atms[i].getNom() << " - " << atms[i].getCount() << std::endl;
+	while(True){
+		std::cout << "How many rubles do you want?" << std::endl;
+		std::cin >> money;
 	}
 }
