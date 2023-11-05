@@ -37,27 +37,24 @@ void init(std::vector <ATM> &atms){
 	fclose(fp);
 }
 
-void get_money(std::vector <ATM> &atm, int money){
-	int c;
-	std::vector<int>temp;
-	for (int i = 0; i < atm.size(); i++){
-		if (money < atm[atm.size()].getNom()) break;
-		if (atm[i].getCount() == 0) continue;
-		c = money/atm[i].getNom();
-		if (c > atm[i].getCount()) {
-			temp.push_back(atm[i].getCount());
-			money -= atm[i].getRes();
-		} else{
-			temp.push_back(c);
-			money -= atm[i].getNom()*c;
-		}
-	}
-	std::cout << "Извлечено: " << std::endl;
-	for (int i = 0; i < atm.size(); i++){
-		atm[i] = atm[i] - temp[i];
-	    if (temp[i] != 0) std::cout << atm[i].getNom() << " - " << temp[i] << std::endl;
-	}
-	
+void get_money(std::vector<ATM>& atm, int money) {
+    int c, count;
+    std::vector<int> temp;
+    for (int i = 0; i < atm.size(); i++) {
+        if (money < atm[i].getNom()) break; // under construction
+        if (atm[i].getCount() == 0) continue;
+        c = money / atm[i].getNom();
+        count = c > atm[i].getCount() ? atm[i].getCount() : c;
+        temp.push_back(count);
+        money -= atm[i].getNom() * c;
+    }
+    std::cout << "Извлечено: " << std::endl;
+    for (int i = 0; i < atm.size(); i++) {
+        atm[i] = atm[i] - temp[i];
+        if (temp[i] != 0) {
+            std::cout << atm[i].getNom() << " - " << temp[i] << std::endl;
+        }
+    }
 }
 
 
@@ -71,11 +68,14 @@ void get_info(std::vector <ATM> &atm){
 int main(){
 	int money, option;
 	std::vector <ATM> atms;
+
     init(atms);
 	std::sort(atms.begin(), atms.end(), compare);
+
 	while(true){
 		std::cout << "SELECT" << std::endl;
 		std::cin >> option;
+		
 		if (option == 1){
 			std::cout << "How many rubles do you want?" << std::endl;
 			std::cin >> money;
