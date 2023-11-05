@@ -11,17 +11,22 @@ class ATM{
 		int getNom() {return nominal;}
 		int getCount() {return count;}
 		int getRes() {return nominal*count;}
+		ATM operator-(int);
 };
+
+ATM ATM::operator-(int _money) {
+    return ATM(nominal, count - _money);
+}
 
 bool compare(ATM &a, ATM &b){
 	return a.getNom() > b.getNom();
 }
 void init(std::vector <ATM> &atms){
 	FILE *fp;
-    fp = fopen("example.txt", "r");
+	int nom, count, a;
 	std::vector<int> v;
+    fp = fopen("example.txt", "r");
 	if (fp == NULL) exit(-1);
-    int nom, count, a;
     while((a = fscanf(fp, "%d - %d", &nom, &count)) != EOF){
 		if (a != 2 || nom < 0 || count < 0) exit(-1);
 		if (std::binary_search(v.begin(), v.end(), nom) == true) exit(-1);
@@ -32,14 +37,27 @@ void init(std::vector <ATM> &atms){
 	fclose(fp);
 }
 
-int get_money(std::vector <ATM> &atm, int money){
+void get_money(std::vector <ATM> &atm, int money){
 	int c;
-	fp = fopen("example.txt", "w");
+	int temp[atm.size()] = {};
 	for (int i = 0; i < atm.size(); i++){
+		if (money < atm[atm.size()].getNom()) break;
 		c = money/atm[i].getNom();
-		if (c > atm[i].getCount()) money -= atm[i].getRes();
+		if (c > atm[i].getCount() && atm[i].getCount() != 0) {
+			temp[i] = atm[i].getCount();
+			money -= atm[i].getRes();
+			atm[i] = atm[i] - atm[i].getCount();
+		} else{
+			temp[i] = c;
+			money -= atm[i].getNom()*c;
+			atm[i] = atm[i] - c;
+		}
 	}
-	return money;
+	std::cout << "Извлечено: " << std::endl;
+	for (int i = 0; i < atm.size(); i++){
+		std::cout << temp[i] << std::endl;
+	}
+	
 }
 
 int main(){
@@ -47,8 +65,9 @@ int main(){
 	std::vector <ATM> atms;
     init(atms);
 	std::sort(atms.begin(), atms.end(), compare);
-	while(True){
+	while(true){
 		std::cout << "How many rubles do you want?" << std::endl;
 		std::cin >> money;
+		get_money(atms, money);
 	}
 }
