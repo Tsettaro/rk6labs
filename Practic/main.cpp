@@ -60,14 +60,28 @@ void get_money(std::vector <ATM> &atm, int money){
 	
 }
 
+
+void get_info(std::vector <ATM> &atm){
+	std::cout << "Nominal - Count" << std::endl;
+	for (int i = 0; i < atm.size(); i++){
+		std::cout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+	}
+}
+
 int main(){
-	int money;
+	int money, option;
 	std::vector <ATM> atms;
     init(atms);
 	std::sort(atms.begin(), atms.end(), compare);
 	while(true){
-		std::cout << "How many rubles do you want?" << std::endl;
-		std::cin >> money;
-		get_money(atms, money);
+		std::cout << "SELECT" << std::endl;
+		std::cin >> option;
+		if (option == 1){
+			std::cout << "How many rubles do you want?" << std::endl;
+			std::cin >> money;
+			get_money(atms, money);
+		} else if (option == 2){
+			get_info(atms);
+		}
 	}
 }
