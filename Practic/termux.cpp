@@ -41,18 +41,22 @@ void get_money(std::vector<ATM>& atm, int money) {
     int c, count;
     std::vector<int> temp;
     for (int i = 0; i < atm.size(); i++) {
-        if (money < atm[i].getNom()) break; // under construction
+        if (money < atm[atm.size()].getNom()) break; // under construction
         if (atm[i].getCount() == 0) continue;
         c = money / atm[i].getNom();
         count = c > atm[i].getCount() ? atm[i].getCount() : c;
         temp.push_back(count);
         money -= atm[i].getNom() * c;
     }
-    std::cout << "Извлечено: " << std::endl;
-    for (int i = 0; i < atm.size(); i++) {
-        atm[i] = atm[i] - temp[i];
-        if (temp[i] != 0) {
-            std::cout << atm[i].getNom() << " - " << temp[i] << std::endl;
+
+    if (money != 0) std::cout << "FAIL" << std::endl; 
+    else{
+        std::cout << "Извлечено: " << std::endl;
+        for (int i = 0; i < atm.size(); i++) {
+            atm[i] = atm[i] - temp[i];
+            if (temp[i] != 0) {
+                std::cout << atm[i].getNom() << " - " << temp[i] << std::endl;
+            }
         }
     }
 }
