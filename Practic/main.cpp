@@ -1,7 +1,11 @@
 #include <iostream>
-
+#include <cstdio>
 int main(){
-	int a;
-	a = 0;
-	std:cout << a << std::endl;
+	FILE *fp;
+	fp = fopen("example.txt", "r");
+	int nom, count;
+	while(fscanf("%d – %d", fp, &nom, &count)){
+		std::cout << nom << " " << count << std::endl;
+	}
+	fclose(fp);
 }
