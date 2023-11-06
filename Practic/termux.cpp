@@ -72,23 +72,32 @@ void get_info(std::vector <ATM> &atm){
 	}
 }
 
-int main(){
-	int money, option;
-	std::vector <ATM> atms;
-
+int main() {
+    int option;
+    std::vector<ATM> atms;
     init(atms);
-	std::sort(atms.begin(), atms.end(), compare);
+    std::sort(atms.begin(), atms.end(), compare);
 
-	while(true){
-		std::cout << "SELECT" << std::endl;
-		std::cin >> option;
-		
-		if (option == 1){
-			std::cout << "How many rubles do you want?" << std::endl;
-			std::cin >> money;
-			get_money(atms, money);
-		} else if (option == 2){
-			get_info(atms);
-		}
-	}
+    while (true) {
+        std::cout << "SELECT\n";
+        std::cin >> option;
+
+        if (std::cin.eof()) {
+            exit(-1);
+        }
+
+        if (option == 1) {
+            int money;
+            std::cout << "How many rubles do you want?\n";
+            std::cin >> money;
+
+            if (std::cin.eof()) {
+                exit(-2);
+            } else {
+                get_money(atms, money);
+            }
+        } else if (option == 2) {
+            get_info(atms);
+        }
+    }
 }

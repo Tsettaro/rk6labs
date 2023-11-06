@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 
+using std::cout, std::cin, std::endl;
 class ATM{
 	int nominal;
 	int count;
@@ -54,11 +55,11 @@ void get_money(std::vector <ATM> &atm, int money){
 
     if (money != 0) std::cout << "FAIL" << std::endl; 
     else{
-        std::cout << "Извлечено: " << std::endl;
+        cout << "Извлечено: " << std::endl;
         for (int i = 0; i < atm.size(); i++) {
             atm[i] = atm[i] - temp[i];
             if (temp[i] != 0) {
-                std::cout << atm[i].getNom() << " - " << temp[i] << std::endl;
+                cout << atm[i].getNom() << " - " << temp[i] << endl;
             }
         }
     }
@@ -69,24 +70,36 @@ void get_money(std::vector <ATM> &atm, int money){
 void get_info(std::vector <ATM> &atm){
 	std::cout << "Nominal - Count" << std::endl;
 	for (int i = 0; i < atm.size(); i++){
-		std::cout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+		cout << atm[i].getNom() << " - " << atm[i].getCount() << endl;
 	}
 }
 
-int main(){
-	int money, option;
-	std::vector <ATM> atms;
+int main() {
+    int option;
+    std::vector<ATM> atms;
     init(atms);
-	std::sort(atms.begin(), atms.end(), compare);
-	while(true){
-		std::cout << "SELECT" << std::endl;
-		std::cin >> option;
-		if (option == 1){
-			std::cout << "How many rubles do you want?" << std::endl;
-			std::cin >> money;
-			get_money(atms, money);
-		} else if (option == 2){
-			get_info(atms);
-		}
-	}
+    std::sort(atms.begin(), atms.end(), compare);
+
+    while (true) {
+        std::cout << "SELECT\n";
+        std::cin >> option;
+
+        if (std::cin.eof()) {
+            exit(-1);
+        }
+
+        if (option == 1) {
+            int money;
+            std::cout << "How many rubles do you want?\n";
+            std::cin >> money;
+
+            if (std::cin.eof()) {
+                exit(-2);
+            } else {
+                get_money(atms, money);
+            }
+        } else if (option == 2) {
+            get_info(atms);
+        }
+    }
 }
