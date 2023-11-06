@@ -1,7 +1,26 @@
 #include <iostream>
-#include <ctype>
-
+#include <cmath>
+#include <iomanip>
 using std::cin;
+
+int factorial(int i)
+{
+  if (i==0) return 1;
+  else return i*factorial(i-1);
+}
+
+void first_task(long double lambda, long double nu){
+    long double sum = 0, M = 0, k = 0, ro = lambda/nu;
+    for (int i = 0; i < 4; i++){
+        long double p_0 = 1/(sum + pow(ro, i)/factorial(i));
+        sum += p_0;
+        long double p = pow(ro, i)/factorial(i) * p_0;
+        M += p * i;
+        std::cout << "n = " << i << " p = " << p << " M = " << M;
+        if (i > 0) std::cout << " k = " << M/i;
+        std::cout << '\n';
+    }
+}
 
 int main(){
     int R1, G1, B1, R2, G2, B2, R3, G3, B3;
@@ -9,6 +28,8 @@ int main(){
     cin >> R2 >> G2 >> B2;
     cin >> R3 >> G3 >> B3;
 
-    int T_c = R1 + G1 + B1, T_s = R2;
-    int lambda_c = 1/T_c, lambda_s = 1/T_s;
+    long double T_c = R1 + G1 + B1, T_s = R2;
+    long double lambda = 1/T_c, nu = 1/T_s;
+
+    first_task(lambda, nu);
 }

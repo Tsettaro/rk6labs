@@ -54,3 +54,4 @@ dkms.conf
 push.sh
 .vscode/
 Practic/example.txt
+*.stackdump
