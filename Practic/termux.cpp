@@ -42,7 +42,10 @@ void get_money(std::vector<ATM>& atm, int money) {
     std::vector<int> temp;
     for (int i = 0; i < atm.size(); i++) {
         if (money < atm[atm.size()].getNom()) break; // under construction
-        if (atm[i].getCount() == 0) continue;
+        if (atm[i].getCount() == 0) {
+            temp.push_back(0);
+            continue;
+        }
         c = money / atm[i].getNom();
         count = c > atm[i].getCount() ? atm[i].getCount() : c;
         temp.push_back(count);
