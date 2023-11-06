@@ -37,6 +37,15 @@ void init(std::vector <ATM> &atms){
 	fclose(fp);
 }
 
+void write_info(std::vector <ATM> &atm){
+	FILE *fp;
+	fp = fopen("example.txt", "w");
+	if (fp == NULL) exit(-1);
+	for (int i = 0; i < atm.size(); i++){
+		fprintf(fp, "%d - %d\n", atm[i].getNom(), atm[i].getCount());
+	}
+	fclose(fp);
+}
 void get_money(std::vector<ATM>& atm, int money) {
     int c, count;
     std::vector<int> temp;
@@ -91,13 +100,14 @@ int main() {
             std::cout << "How many rubles do you want?\n";
             std::cin >> money;
 
-            if (std::cin.eof()) {
-                exit(-2);
-            } else {
+            if (std::cin.eof()) exit(-2); 
+			else {
                 get_money(atms, money);
+				write_info(atms);
             }
         } else if (option == 2) {
             get_info(atms);
         }
     }
+
 }
