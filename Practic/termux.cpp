@@ -1,7 +1,7 @@
 #include <iostream>
-#include <cstdio>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 class ATM{
 	int nominal;
@@ -22,29 +22,29 @@ bool compare(ATM &a, ATM &b){
 	return a.getNom() > b.getNom();
 }
 void init(std::vector <ATM> &atms){
-	FILE *fp;
-	int nom, count, a;
-	std::vector<int> v;
-    fp = fopen("example.txt", "r");
-	if (fp == NULL) exit(-1);
-    while((a = fscanf(fp, "%d - %d", &nom, &count)) != EOF){
-		if (a != 2 || nom < 0 || count < 0) exit(-1);
-		if (std::binary_search(v.begin(), v.end(), nom) == true) exit(-1);
-		v.push_back(nom);
-		atms.push_back(ATM(nom, count));
+    std::ifstream fin;
+    fin.open("example.txt");
+    if (!fin){
+        exit(-1);
     }
-	v.clear();
-	fclose(fp);
+    int nom, count;
+	std::vector<int> v;
+    while (fin >> nom >> count){
+        if (nom < 0 || count < 0 || std::find(v.begin(), v.end(), nom) != v.end()) exit(-1);
+        atms.push_back(ATM(nom, count));
+        v.push_back(nom);
+    }
+    v.clear();
+    fin.close();
 }
 
 void write_info(std::vector <ATM> &atm){
-	FILE *fp;
-	fp = fopen("example.txt", "w");
-	if (fp == NULL) exit(-1);
-	for (int i = 0; i < atm.size(); i++){
-		fprintf(fp, "%d - %d\n", atm[i].getNom(), atm[i].getCount());
-	}
-	fclose(fp);
+    std::ofstream fout;
+    fout.open("example.txt");
+    for (int i = 0; i < atm.size(); i++){
+        fout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+    }
+    fout.close();
 }
 void get_money(std::vector<ATM>& atm, int money) {
     int c, count;
