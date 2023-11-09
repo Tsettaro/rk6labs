@@ -4,14 +4,14 @@
 #include <fstream>
 
 class ATM{
-	int nominal;
-	int count;
-	public:
-		ATM(int n, int c): nominal(n), count(c){}
-		int getNom() {return nominal;}
-		int getCount() {return count;}
-		int getRes() {return nominal*count;}
-		ATM operator-(int);
+        int nominal;
+        int count;
+        public:
+                ATM(int n, int c): nominal(n), count(c){}
+                int getNom() {return nominal;}
+                int getCount() {return count;}
+                int getRes() {return nominal*count;}
+                ATM operator-(int);
 };
 
 ATM ATM::operator-(int _money) {
@@ -19,7 +19,7 @@ ATM ATM::operator-(int _money) {
 }
 
 bool compare(ATM &a, ATM &b){
-	return a.getNom() > b.getNom();
+        return a.getNom() > b.getNom();
 }
 void init(std::vector <ATM> &atms){
     std::ifstream fin;
@@ -28,7 +28,7 @@ void init(std::vector <ATM> &atms){
         exit(-1);
     }
     int nom, count;
-	std::vector<int> v;
+        std::vector<int> v;
     while (fin >> nom >> count){
         if (nom < 0 || count < 0 || std::find(v.begin(), v.end(), nom) != v.end()) exit(-1);
         atms.push_back(ATM(nom, count));
@@ -61,7 +61,7 @@ void get_money(std::vector<ATM>& atm, int money) {
         money -= atm[i].getNom() * c;
     }
 
-    if (money != 0) std::cout << "FAIL" << std::endl; 
+    if (money != 0) std::cout << "FAIL" << std::endl;
     else{
         std::cout << "Извлечено: " << std::endl;
         for (int i = 0; i < atm.size(); i++) {
@@ -75,10 +75,10 @@ void get_money(std::vector<ATM>& atm, int money) {
 
 
 void get_info(std::vector <ATM> &atm){
-	std::cout << "Nominal - Count" << std::endl;
-	for (int i = 0; i < atm.size(); i++){
-		std::cout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
-	}
+        std::cout << "Nominal - Count" << std::endl;
+        for (int i = 0; i < atm.size(); i++){
+                std::cout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+        }
 }
 
 int main() {
@@ -89,25 +89,27 @@ int main() {
 
     while (true) {
         std::cout << "SELECT\n";
-        std::cin >> option;
-
+        while(!(std::cin >> option)){
+	    option = 3;
+	    std::cin.clear();
+	}
         if (std::cin.eof()) {
             exit(-1);
         }
-
-        if (option == 1) {
-            int money;
-            std::cout << "How many rubles do you want?\n";
-            std::cin >> money;
-
-            if (std::cin.eof()) exit(-2); 
-			else {
-                get_money(atms, money);
-				write_info(atms);
-            }
-        } else if (option == 2) {
-            get_info(atms);
+        switch(option){
+        	case 1 :  int money;
+                          std::cout << "How many rubles do you want?\n";
+                          std::cin >> money; 
+                          if (std::cin.eof()) exit(-2);
+                          else {
+                              get_money(atms, money);
+                              write_info(atms);
+            		  }
+			  break;
+                case 2 : get_info(atms);
+			 break;
+                default : std::cout << "NO\n";
+			  break;
         }
-    }
-
+	}
 }
