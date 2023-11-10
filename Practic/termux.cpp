@@ -1,9 +1,8 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 #include <fstream>
 #define SIZE 1000
-using std::cin, using std::cout, using std::cerr;
+using std::cin, std::cout, std::cerr;
 class ATM{
         int nominal;
         int count;
@@ -14,10 +13,14 @@ class ATM{
             int getCount() {return count;}
             int getRes() {return nominal*count;}
             ATM operator-(int);
+            ATM operator+(int);
 };
 
 ATM ATM::operator-(int _money) {
     return ATM(nominal, count - _money);
+}
+ATM ATM::operator+(int _money) {
+    return ATM(nominal, count + _money);
 }
 
 bool compare(ATM a, ATM b){
@@ -49,8 +52,13 @@ void write_info(ATM* atm, int& size){
     }
     fout.close();
 }
-void get_money(ATM* atm, int& size, int money) {
-    int c, count;
+void get_money(ATM* atm, int& size) {
+    int c, count, money;
+    cout << "How many rubles do you want?\n";
+    if(!(cin >> money)) {
+        cerr << "ERROR" << std::endl;
+        exit(-1);
+    }
     int* temp = new int[size];
     for (int i = 0; i < size; i++){
         if (money < atm[size].getNom()) break; 
@@ -75,15 +83,25 @@ void get_money(ATM* atm, int& size, int money) {
             }
         }
     }
-    write_info(atm, size);
     delete []temp;
 }
-
 
 void get_info(ATM* atm, int& size){
     cout << "Nominal - Count" << std::endl;
     for (int i = 0; i < size; i++){
         cout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+    }
+}
+
+void push_money(ATM *atm, int& size){
+    int money = 0;
+    for (int i = 0; i < size; i++){
+        cout << "How many " << atm[i].getNom() << " do you want to push?\n";
+        if (!(cin >> money) || money < 0){
+            cerr << "ERROR" << std::endl;
+            exit(-1);
+        }
+        atm[i] = atm[i] + money;
     }
 }
 
@@ -93,40 +111,28 @@ int main() {
     init(atms, size);
     std::sort(atms, atms + size, compare);
     int option;
-    cout << "SELECT\n";
-    cin >> option;
-    if (cin.eof()) {
-        exit(-1);
-    }
-    switch(option){
-        case 1 :    int money;
-                    cout << "How many rubles do you want?\n";
-                    cin >> money;
-                    get_money(atms, size, money);
+    while (true){
+        cout << "SELECT: 1 - Take money, 2 - Get info, 3 - Push money\n";
+        if(!(cin >> option)) {
+            cerr << "ERROR" << std::endl;
+            exit(-1);
+        }
+        if (cin.eof()) {
+            exit(-1);
+        }
+        switch(option){
+        case 1 :    
+                    get_money(atms, size);
+                    write_info(atms, size);
                     break;
         case 2 :    get_info(atms, size);
                     break;
+        case 3 :    push_money(atms, size);
+                    write_info(atms, size);
+                    break;
+        default :   cout << "ERROR\n";
+			        break;
+        }
     }
     delete []atms;
-    /* std::vector<ATM> atms;
-    init(atms);
-    std::sort(atms.begin(), atms.end(), compare);
-    int option;
-    cout << "SELECT\n";
-    cin >> option;
-    if (cin.eof()) {
-        exit(-1);
-    }
-    switch(option){
-        case 1 :    int money;
-                    cout << "How many rubles do you want?\n";
-                    cin >> money;
-                    get_money(atms, money);
-                    write_info(atms);
-			        break;
-        case 2 :    get_info(atms);
-			        break;
-        default :   cout << "NO\n";
-			        break;
-    } */
 }
