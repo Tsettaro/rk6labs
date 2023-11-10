@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #define SIZE 1000
-using std::cin, std::cout, std::cerr;
+using std::cin, using std::cout, using std::cerr;
 class ATM{
         int nominal;
         int count;
@@ -45,10 +45,11 @@ void write_info(ATM* atm, int& size){
     std::ofstream fout;
     fout.open("example.txt");
     for (int i = 0; i < size; i++){
-        fout << atm[i].getNom() << " - " << atm[i].getCount() << std::endl;
+        fout << atm[i].getNom() << ' ' <<  atm[i].getCount() << std::endl;
     }
     fout.close();
-}void get_money(ATM* atm, int& size, int money) {
+}
+void get_money(ATM* atm, int& size, int money) {
     int c, count;
     int* temp = new int[size];
     for (int i = 0; i < size; i++){
