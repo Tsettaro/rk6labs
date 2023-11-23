@@ -14,6 +14,7 @@ for i=1:length(p_k)
     phi_x_1(i) = phi_x_2 - p_k(i);
 end
 
+
 syms n;
 n_arr = [];
 for j = [0.52 0.84 1.28 1.65 2.34]
@@ -22,5 +23,6 @@ for j = [0.52 0.84 1.28 1.65 2.34]
 end
 
 figure(1);
-scatter(p_k, n_arr, "blue", "filled"), title("P(k)"), xlabel("P(k)"), ylabel("n");
+plot(p_k, n_arr, "LineWidth",2), title("P(k)"), xlabel("P(k)"), ylabel("n");
 grid on;
+saveas(gcf,'1-7-1.png')

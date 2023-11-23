@@ -13,8 +13,10 @@ for n = temp
 end
 phi = 2.*[0.4999 0.4956 0.4686 0.4049 0.3238]; %phi узнавайте сами
 figure(1);
-scatter(temp, phi,'filled','blue'), title("P"), xlabel("n"), ylabel("P(x)");
+plot(temp, phi,"LineWidth",2), title("P"), xlabel("n"), ylabel("P(x)");
 grid on;
+saveas(gcf,'1-4-1.png')
+
 
 % Task 1.5
 n = 1000;
@@ -25,5 +27,7 @@ for i = temp
 end
 phi = 2.*[0.5 0.2422 0.0279]; %phi подбирать самому
 figure(2);
-scatter(temp,phi,'filled','blue'), title("P"), xlabel("n"), ylabel("P(x)");
+plot(temp,phi,"LineWidth",2), title("P"), xlabel("n"), ylabel("P(x)");
 grid on;
+saveas(gcf,'1-5-1.png')
+

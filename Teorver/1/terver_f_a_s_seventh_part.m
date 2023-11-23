@@ -14,6 +14,8 @@ end
 figure(1);
 scatter(kk, p, "filled", "blue"), title("P(k)"), xlabel("k"), ylabel("P(k)"); 
 grid on;
+saveas(gcf,'3-1-1.png')
+
 
 % Task 3.2
 F = []; j = 0;
@@ -23,8 +25,9 @@ for i=1:length(kk)
 end
 
 figure(2);
-scatter(kk, F, "filled", "blue"), title("F(k)"), xlabel("k"), ylabel("F(k)");
+stairs(kk, F, "LineWidth",2), title("F(k)"), xlabel("k"), ylabel("F(k)");
 grid on;
+saveas(gcf,'3-2-1.png')
 
 % Task 3.3 and 3.4
 

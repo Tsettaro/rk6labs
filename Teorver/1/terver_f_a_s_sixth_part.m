@@ -22,10 +22,12 @@ end
 figure(1);
 scatter(kk,p, "filled", "blue"), xlabel("k"), ylabel("P(k)"), title("P(k)");
 grid on;
+saveas(gcf,'2-1-1.png')
 
 figure(2);
-scatter(0:length(p)-1, F, "filled", "blue"), xlabel("k"), ylabel("F(k)"), title("F(k)");
+stairs(0:length(p)-1, F, "LineWidth",2), xlabel("k"), ylabel("F(k)"), title("F(k)");
 grid on;
+saveas(gcf,'2-2-1.png')
 
 %Task 2.3 and 2.4
 M1 = 0; M2 = 0;
