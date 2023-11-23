@@ -10,37 +10,40 @@ p = 1/sum; q = 1 - p;
 % Task 4.1
 a = 0:7;
 b = 0:30;
-c = 100:3:145;
+c = 120:3:145;
 
 figure(1);
 z = expr(100, p, a);
-scatter(a, z,"filled" ,"blue"), title("n = 100"), xlabel("k"), ylabel("P(k)");
+plot(a, z ,"LineWidth",2), title("n = 100"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'4-1-1.png')
 
 figure(2);
-scatter(a, calc(z), "filled", "blue"), title("F(k) n = 100"), xlabel("k"), ylabel("F(k)");
+stairs(a, calc(z), "LineWidth",2), title("F(k) n = 100"), xlabel("k"), ylabel("F(k)");
 grid on;
+saveas(gcf,'4-1-2.png')
 
 figure(3);
 z = expr(1000, p, b);
-scatter(b,z,"filled" ,"blue"), title("n = 1000"), xlabel("k"), ylabel("P(k)");
+plot(b,z ,"LineWidth",2), title("n = 1000"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'4-1-3.png')
 
 figure(4);
-scatter(b, calc(z), "filled", "blue"), title("F(k) n = 1000"), xlabel("k"), ylabel("F(k)");
+stairs(b, calc(z), "LineWidth",2), title("F(k) n = 1000"), xlabel("k"), ylabel("F(k)");
 grid on;
+saveas(gcf,'4-1-4.png')
 
 figure(5);
 z = expr(10000, p, c);
-scatter(c,z,"filled" ,"blue");
-hold on;
-plot(c, z, 'LineWidth', 1), title("n = 10000"), xlabel("k"), ylabel("P(k)");
-grid on;
-hold off;
+plot(c,z ,"LineWidth",2), title("n = 10000"), xlabel("k"), ylabel("P(k)");
+grid on
+saveas(gcf,'4-1-5.png')
 
 figure(6);
-scatter(c, calc(z), "filled", "blue"), title("F(k) n = 10000"), xlabel("k"), ylabel("F(k)");
+stairs(c, calc(z), "LineWidth",2), title("F(k) n = 10000"), xlabel("k"), ylabel("F(k)");
 grid on;
+saveas(gcf,'4-1-6.png')
 
 % Task 4.2
 syms n;
@@ -53,8 +56,9 @@ for i=p
 end
 
 figure(7);
-scatter(p, n_arr, "blue", "filled"), title("P(k)"), xlabel("P(k)"), ylabel("n");
+plot(p, n_arr, "LineWidth",2), title("P(k)"), xlabel("P(k)"), ylabel("n");
 grid on;
+saveas(gcf,'4-2-1.png')
 
 
 

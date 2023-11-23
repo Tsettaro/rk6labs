@@ -32,18 +32,23 @@ end
 figure(1);
 scatter(0:6,one,"filled", "blue"), title("n = 6"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-1-1.png')
 
 figure(2);
 scatter(0:1:9,two,"filled", "blue"), title("n = 9"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-1-2.png')
 
 figure(3);
 scatter(0:12,three,"filled", "blue"), title("n = 12"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-1-3.png')
 
 figure(4);
-scatter(0:n,F,"filled", "blue"), title("F(k) n = 12"), xlabel("k"), ylabel("F(k)");
+stairs(0:n,F,'LineWidth', 2), title("F(k) n = 12"), xlabel("k"), ylabel("F(k)"); % WARNING
 grid on;
+saveas(gcf,'1-2-1.png')
+
 
 function r = calculate_c(n, k)
    r = factorial(n)/(factorial(k)*factorial(n-k));

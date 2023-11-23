@@ -14,35 +14,43 @@ f = 321:3:430;
 
 figure(1);
 z = expr(25, p, q, a);
-scatter(a, z,"filled" ,"blue"), title("n = 25"), xlabel("k"), ylabel("P(k)");
+plot(a, z ,'LineWidth',2), title("n = 25"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-1.png')
 
 figure(2);
 z = expr(50, p, q, b);
-scatter(b, z,"filled" ,"blue"), title("n = 50"), xlabel("k"), ylabel("P(k)");
+plot(b, z,"LineWidth",2), title("n = 50"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-2.png')
 
 
 figure(3);
 z = expr(100, p, q, c);
-scatter(c, z,"filled" ,"blue"), title("n = 100"), xlabel("k"), ylabel("P(k)");
+plot(c, z ,"LineWidth",2), title("n = 100"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-3.png')
+
 
 figure(4);
 z = expr(200, p, q, d);
-scatter(d, z,"filled" ,"blue"), title("n = 200"), xlabel("k"), ylabel("P(k)");
+plot(d, z ,"LineWidth",2), title("n = 200"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-4.png')
+
 
 figure(5);
 z = expr(400, p, q, e);
-scatter(e, z,"filled" ,"blue"), title("n = 400"), xlabel("k"), ylabel("P(k)");
+plot(e, z ,"LineWidth",2), title("n = 400"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-5.png')
 
 
 figure(6);
 z = expr(1000, p, q, f);
-scatter(f, z,"filled" ,"blue"), title("n = 1000"), xlabel("k"), ylabel("P(k)");
+plot(f, z ,"LineWidth",2), title("n = 1000"), xlabel("k"), ylabel("P(k)");
 grid on;
+saveas(gcf,'1-3-6.png')
 
 function z = expr(n, p, q, K)
     z = [];
